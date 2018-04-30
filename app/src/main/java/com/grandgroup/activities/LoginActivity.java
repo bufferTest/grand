@@ -25,6 +25,8 @@ import com.grandgroup.utills.AppPrefrence;
 import com.grandgroup.utills.GrandGroupHelper;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -96,22 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                 break;
 
             case R.id.forgot_password:
-                new AlertDialog.Builder(this)
-                        .setTitle("Logout")
-                        .setMessage("Are you sure you want to logout?")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Log.d("MainActivity", "Sending atomic bombs to Jupiter");
-                            }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        })
-                        .show();
                 break;
         }
     }
