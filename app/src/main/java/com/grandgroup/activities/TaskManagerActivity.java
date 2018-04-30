@@ -1,5 +1,6 @@
 package com.grandgroup.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -31,9 +32,10 @@ public class TaskManagerActivity extends BaseActivity {
     RecyclerView headerRecyclerView;
     @BindView(R.id.month)
     TextView month_name;
+    @BindView(R.id.btn_add)
+    TextView btnAdd;
 
     private AppCompatActivity mContext;
-
     private int mFirstDay;
     private int year;
     private int month;
@@ -56,6 +58,7 @@ public class TaskManagerActivity extends BaseActivity {
         ButterKnife.bind(this);
         mContext = TaskManagerActivity.this;
         tvTitle.setText("Task Manager");
+        btnAdd.setVisibility(View.VISIBLE);
     }
 
     @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})
@@ -91,6 +94,12 @@ public class TaskManagerActivity extends BaseActivity {
                     cal.set(Calendar.MONTH, month + 1);
                 }
                 setupcalender();
+                break;
+
+            case R.id.btn_add:
+                Intent intent = new Intent(mContext, AddTaskActivity.class);
+                startActivity(intent);
+                mContext.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                 break;
         }
     }

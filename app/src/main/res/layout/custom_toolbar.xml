@@ -17,6 +17,7 @@
         android:padding="12dp"
         android:layout_centerVertical="true"
         android:background="@mipmap/back_white"/>
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
