@@ -1,7 +1,7 @@
 package com.grandgroup.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,10 +12,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddTaskActivity extends BaseActivity {
-    private AppCompatActivity mContext;
-
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    private AppCompatActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +28,13 @@ public class AddTaskActivity extends BaseActivity {
         mContext = AddTaskActivity.this;
         tvTitle.setText("add Task");
     }
+
     @OnClick({R.id.btn_back})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
                 finish();
-                mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);        }
+                mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
+        }
     }
 }

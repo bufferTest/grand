@@ -39,6 +39,12 @@ public class RiskReportActivity extends AppCompatActivity {
     TextView tv_event_date;
     @BindView(R.id.iv_image)
     ImageView iv_image;
+    @BindView(R.id.tv_select_likelihood)
+    TextView tvSelectedLikelihood;
+    @BindView(R.id.tv_select_consq)
+    TextView tv_select_consq;
+    @BindView(R.id.et_control_eff)
+    TextView et_control_eff;
     private AppCompatActivity mContext;
 
     @Override
@@ -48,7 +54,7 @@ public class RiskReportActivity extends AppCompatActivity {
         setInitialData();
     }
 
-    @OnClick({R.id.tv_event_date, R.id.lay_photo})
+    @OnClick({R.id.tv_event_date, R.id.lay_photo,R.id.tv_select_likelihood,R.id.tv_select_consq,R.id.et_control_eff})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.tv_event_date:
@@ -56,7 +62,6 @@ public class RiskReportActivity extends AppCompatActivity {
                     @Override
                     public void onOkayClick(int date, int month, int year) {
                         CustomTimeDialog.getInstance().timePicker(mContext, new CustomTimeDialog.TimeDialogListener() {
-
                             @Override
                             public void onOkayClick(String twentyFourTime, String TwelveHourTime) {
 
@@ -67,6 +72,30 @@ public class RiskReportActivity extends AppCompatActivity {
                 break;
             case R.id.lay_photo:
                 selectImage();
+                break;
+            case R.id.tv_select_likelihood:
+                CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
+                    @Override
+                    public void OnClickItem(String Item) {
+                        tvSelectedLikelihood.setText(Item);
+                    }
+                });
+                break;
+            case R.id.tv_select_consq:
+                CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
+                    @Override
+                    public void OnClickItem(String Item) {
+                        tv_select_consq.setText(Item);
+                    }
+                });
+                break;
+            case R.id.et_control_eff:
+                CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
+                    @Override
+                    public void OnClickItem(String Item) {
+                        et_control_eff.setText(Item);
+                    }
+                });
                 break;
         }
 
@@ -159,4 +188,7 @@ public class RiskReportActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 2);
     }
+
+
+
 }

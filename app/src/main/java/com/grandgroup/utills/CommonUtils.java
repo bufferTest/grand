@@ -1,11 +1,13 @@
 package com.grandgroup.utills;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -13,17 +15,30 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+
+import com.grandgroup.R;
+import com.grandgroup.adapter.EventsAdapter;
+import com.grandgroup.adapter.SelectItemAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 
 /*
  * Created by softuvo on 25/1/18.
  */
 
 public class CommonUtils {
+
+    String itemSelected;
+
     private static final CommonUtils ourInstance = new CommonUtils();
 
     private CommonUtils() {
@@ -78,5 +93,54 @@ public class CommonUtils {
         }
     }
 
+
+    public void selectDialog(final AppCompatActivity mContext, final OnClickItem onClickItem) {
+
+        final Dialog dialog = new Dialog(mContext);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_select_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+
+        ImageView iv_close = dialog.findViewById(R.id.iv_close);
+        RecyclerView rv_items = dialog.findViewById(R.id.rv_items);
+
+        ArrayList<String> daysList = new ArrayList<>();
+        daysList.add("Birthday");
+        daysList.add("Marriage");
+        daysList.add("Blood donation");
+        daysList.add("Social Service");
+
+        SelectItemAdapter adapter = new SelectItemAdapter(daysList, new SelectItemAdapter.OnClick() {
+            @Override
+            public void OnClick(String item) {
+                itemSelected = item;
+                onClickItem.OnClickItem(itemSelected);
+                dialog.cancel();
+            }
+        });
+        rv_items.setHasFixedSize(true);
+        rv_items.setAdapter(adapter);
+        LinearLayoutManager llm = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        rv_items.setLayoutManager(llm);
+
+
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public interface OnClickItem {
+        void OnClickItem(String Item);
+    }
 
 }
