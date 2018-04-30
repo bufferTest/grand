@@ -13,13 +13,23 @@ import android.widget.TextView;
 
 import com.grandgroup.R;
 import com.grandgroup.adapter.CalenderAdapter;
-import com.grandgroup.adapter.EventsAdapter;
+import com.grandgroup.adapter.ShiftStructureAdapter;
 import com.grandgroup.adapter.header_Adapter;
+import com.grandgroup.model.ShiftDetailModel;
 import com.grandgroup.model.calenderModel;
+import com.grandgroup.utills.CallProgressWheel;
+import com.grandgroup.utills.GrandGroupHelper;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -37,10 +47,8 @@ public class ShiftStructure extends BaseActivity {
     RecyclerView headerRecyclerView;
     @BindView(R.id.month)
     TextView month_name;
-    @BindView(R.id.btn_add)
-    Button btnAdd;
-    @BindView(R.id.rv_events)
-    RecyclerView rv_events;
+    @BindView(R.id.rv_shifts)
+    RecyclerView rv_shifts;
     @BindView(R.id.tv_no_events)
     TextView tv_no_events;
 
@@ -49,6 +57,7 @@ public class ShiftStructure extends BaseActivity {
     private int year;
     private int month;
     private Calendar cal = Calendar.getInstance();
+    private ArrayList<ShiftDetailModel> shiftsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +70,7 @@ public class ShiftStructure extends BaseActivity {
         ButterKnife.bind(this);
         mContext = ShiftStructure.this;
         tvTitle.setText("Shift Structure");
+        setUpWeekNames();
     }
 
     @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})
@@ -97,11 +107,6 @@ public class ShiftStructure extends BaseActivity {
                 setupcalender();
                 break;
 
-            case R.id.btn_add:
-                Intent intent = new Intent(mContext, AddTaskActivity.class);
-                startActivity(intent);
-                mContext.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-                break;
         }
     }
 
@@ -180,6 +185,8 @@ public class ShiftStructure extends BaseActivity {
             @Override
             public void onDayClick(String position) {
                 Log.e("day", position + cal.get(Calendar.MONTH) + cal.get(Calendar.YEAR));
+           //     Mar 17, 2018 12:36 PM
+            //    fetchShifts()
             }
         });
         calenderRecyclerView.setAdapter(calenderAdpter);
@@ -187,24 +194,55 @@ public class ShiftStructure extends BaseActivity {
     }
 
 
-    private void setEventsAdapter() {
 
-        ArrayList<String> daysList = new ArrayList<>();
-        daysList.add("Birthday");
-        daysList.add("Marriage");
-        daysList.add("Blood donation");
-        daysList.add("Social Service");
-        if (daysList.size() > 0) {
+    public void fetchShifts(String shiftStartDate) {
+        if (GrandGroupHelper.grandGroupHelper(mContext).CheckIsConnectedToInternet()) {
+            CallProgressWheel.showLoadingDialog(mContext);
+            ParseQuery<ParseObject> query = ParseQuery.getQuery(shiftStartDate);
+            query.whereEqualTo("shift_start_date", ParseUser.getCurrentUser());
+            query.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> userList, ParseException e) {
+                    if (e == null) {
+                        if (userList.size() > 0) {
+                            for (int i = 0; i < userList.size(); i++) {
+                                ShiftDetailModel shiftDetailModel = new ShiftDetailModel();
+                                ParseObject p = userList.get(i);
+                                shiftDetailModel.setShift_assigned_by_id(p.getString(getString(R.string.shiftAssign)));
+                                shiftDetailModel.setShift_details(p.getString(getString(R.string.shiftDetails)));
+                                shiftDetailModel.setShift_end_date_str(p.getString(getString(R.string.shiftEndDateStr)));
+                                shiftDetailModel.setShift_start_date_str(p.getString(getString(R.string.shiftStartDate)));
+                                shiftDetailModel.setShift_name(p.getString(getString(R.string.shiftName)));
+                                shiftsList.add(shiftDetailModel);
+                        }
+                            setAdapter();
+                        }
 
-            EventsAdapter adapter = new EventsAdapter(daysList);
-            rv_events.setHasFixedSize(true);
-            rv_events.setAdapter(adapter);
-            LinearLayoutManager llm = new LinearLayoutManager(this);
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            rv_events.setLayoutManager(llm);
+                    } else {
+                    }
+                }
+
+            });
         } else {
-            tv_no_events.setVisibility(View.VISIBLE);
-            rv_events.setVisibility(View.GONE);
+            CallProgressWheel.dismissLoadingDialog();
+        }
+    }
+
+    private void setAdapter() {
+        try {
+            if (shiftsList.size() > 0) {
+                ShiftStructureAdapter adapter = new ShiftStructureAdapter(mContext, shiftsList);
+                rv_shifts.setHasFixedSize(true);
+                rv_shifts.setAdapter(adapter);
+                LinearLayoutManager llm = new LinearLayoutManager(this);
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                rv_shifts.setLayoutManager(llm);
+            } else {
+                tv_no_events.setVisibility(View.VISIBLE);
+                rv_shifts.setVisibility(View.GONE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

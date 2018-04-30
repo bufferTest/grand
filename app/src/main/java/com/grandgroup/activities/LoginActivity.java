@@ -22,6 +22,7 @@ import com.grandgroup.R;
 import com.grandgroup.model.UserProfileBean;
 import com.grandgroup.utills.AppConstant;
 import com.grandgroup.utills.AppPrefrence;
+import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.GrandGroupHelper;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -30,6 +31,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -98,33 +100,46 @@ public class LoginActivity extends AppCompatActivity {
                 break;
 
             case R.id.forgot_password:
-
+                if(!etUserName.getText().toString().equalsIgnoreCase("")) {
+                    ParseUser.requestPasswordResetInBackground(etUserName.getText().toString(),
+                            new RequestPasswordResetCallback() {
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        Toast.makeText(mContext,"Reset password link has been sent to your email.",Toast.LENGTH_LONG).show();
+                                    } else {
+                                        // Something went wrong. Look at the ParseException to see what's up.
+                                    }
+                                }
+                            });
+                }
+                else{
+                    Toast.makeText(mContext,"Please enter email",Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }
 
     private void loginUser() {
+        CallProgressWheel.showLoadingDialog(mContext);
         ParseUser.logInInBackground(etUserName.getText().toString(), etPswd.getText().toString(), new LogInCallback() {
             @Override
             public void done(ParseUser user, com.parse.ParseException e) {
                 if (user != null) {
+                    CallProgressWheel.dismissLoadingDialog();
+                    UserProfileBean userProfileBean = new UserProfileBean();
                     ParseUser parseUser = ParseUser.getCurrentUser();
-
-                    parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-
+                   /* parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                         @Override
                         public void done(ParseObject object, com.parse.ParseException e) {
-                            UserProfileBean userProfileBean = new UserProfileBean();
-                            if (e == null) {
+                            if (e == null) {*/
                                 AppPrefrence.init(mContext).putBoolean(AppConstant.IS_LOGGED_IN,true);
                                 //  BloodDonationHelper.bloodDonationHelper(mContext).dismissLoader();
-                            userProfileBean.setUserFirstName(object.getString(getString(R.string.userFirstName)));
-                            userProfileBean.setUserLastName(object.getString(getString(R.string.userLastName)));
-                            userProfileBean.setUserPhoneNumber(object.getString(getString(R.string.userEmail)));
-                            userProfileBean.setUserBloodGroup(object.getString(getString(R.string.userPassword)));
-                            userProfileBean.setUserAvailability(object.getBoolean(getString(R.string.isAdmin)));
-
-                            ParseFile postImage = object.getParseFile(getString(R.string.profilePic));
+                            userProfileBean.setUserFirstName(parseUser.getString(getString(R.string.userFirstName)));
+                            userProfileBean.setUserLastName(parseUser.getString(getString(R.string.userLastName)));
+                            userProfileBean.setUserEmail(parseUser.getString(getString(R.string.userEmail)));
+                            userProfileBean.setUserPassword(parseUser.getString(getString(R.string.userPassword)));
+                            userProfileBean.setAdmin(parseUser.getBoolean(getString(R.string.isAdmin)));
+                            ParseFile postImage = parseUser.getParseFile(getString(R.string.profilePic));
                             if (postImage != null)
                                 userProfileBean.setUserProfilePicUrl(postImage.getUrl());
                             else
@@ -136,25 +151,21 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(new Intent(mContext, DashBoardActivity.class));
                                 mContext.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                                 finish();
-
-                            } else {
+                            /*} else {
                                 //  BloodDonationHelper.bloodDonationHelper(mContext).dismissLoader();
                                 Toast.makeText(getApplicationContext(), "Invalid email or password!", Toast.LENGTH_LONG).show();
-
                             }
                         }
-
-                    });
-
+                    });*/
 
                 } else {
+                    CallProgressWheel.dismissLoadingDialog();
                     // GrandGroupHelper.grandGroupHelper(mContext).d();
                     Toast.makeText(getApplicationContext(),"Invalid email or password!", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
-
 
     private void setIntialData() {
         if (AppPrefrence.init(mContext).getBoolean(AppConstant.IS_REMEMBERED)) {

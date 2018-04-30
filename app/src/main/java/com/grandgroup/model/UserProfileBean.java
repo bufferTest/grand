@@ -15,15 +15,30 @@ public class UserProfileBean implements Serializable {
     private String userFirstName = "";
     private String userLastName = "";
     private String userPhoneNumber = "";
-    private  String userBloodGroup = "";
+    private  String userPassword = "";
     private String userCurrentCity = "";
     private Bitmap userImgBitmap;
     private String userProfilePicUrl;
     private  String userGender = "";
-    private String userEmail = "";
     private  boolean userAvailability = true;
+    private String userEmail = "";
+    private  boolean isAdmin = true;
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
 
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
     public String getUserEmail() {
         return userEmail;
     }
@@ -90,14 +105,6 @@ public class UserProfileBean implements Serializable {
 
     public void setUserPhoneNumber(String userPhoneNumber) {
         this.userPhoneNumber = userPhoneNumber;
-    }
-
-    public String getUserBloodGroup() {
-        return userBloodGroup;
-    }
-
-    public void setUserBloodGroup(String userBloodGroup) {
-        this.userBloodGroup = userBloodGroup;
     }
 
     public String getUserCurrentCity() {

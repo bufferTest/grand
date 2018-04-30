@@ -201,7 +201,6 @@ public class TaskManagerActivity extends BaseActivity {
         daysList.add("Blood donation");
         daysList.add("Social Service");
         if (daysList.size() > 0) {
-
             EventsAdapter adapter = new EventsAdapter(daysList);
             rv_events.setHasFixedSize(true);
             rv_events.setAdapter(adapter);

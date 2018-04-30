@@ -47,21 +47,20 @@ public class UserProfileActivity extends BaseActivity {
     private UserProfileBean userProfileObj;
     private Bitmap scaled = null;
 
-
     @BindView(R.id.tv_title)
     TextView tvTitle;
 
     @BindView(R.id.iv_user_pic)
     ImageView ivUserPic;
 
-    @BindView(R.id.et_username)
-    EditText etUserName;
-
-    @BindView(R.id.et_pswd)
-    EditText etPassword;
-
     @BindView(R.id.et_email)
     EditText etEmail;
+
+    @BindView(R.id.et_first_name)
+    EditText etFirstName;
+
+    @BindView(R.id.et_last_name)
+    EditText etLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +78,10 @@ public class UserProfileActivity extends BaseActivity {
         String json = AppPrefrence.init(mContext).getString(AppConstant.USER_PROFILE);
         userProfileObj = gson.fromJson(json, UserProfileBean.class);
 
-        etUserName.setText(userProfileObj.getUserFirstName());
-        etUserName.setSelection(etUserName.length());
+        etFirstName.setText(userProfileObj.getUserFirstName());
+        etFirstName.setSelection(etFirstName.length());
 
-        etPassword.setText("*********");
+        etLastName.setText(userProfileObj.getUserLastName());
         etEmail.setText(userProfileObj.getUserEmail());
 
         if (userProfileObj.getUserProfilePicUrl() != null) {
@@ -100,8 +99,7 @@ public class UserProfileActivity extends BaseActivity {
                 mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
                 break;
             case R.id.btn_save:
-                finish();
-            //    updateProfile();
+                updateProfile(etFirstName.getText().toString(),etLastName.getText().toString(),etEmail.getText().toString(),scaled);
                 break;
             case R.id.tv_tv_change_pic:
                 selectImage();
@@ -209,7 +207,7 @@ public class UserProfileActivity extends BaseActivity {
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             scaled.compress(Bitmap.CompressFormat.PNG, 70, stream);
                             byte[] image = stream.toByteArray();
-                            ParseFile file = new ParseFile("image.png", image);
+                            ParseFile file = new ParseFile("ile.png", image);
                             object.put(getString(R.string.profilePic), file);
                         }
                         object.saveInBackground(new SaveCallback() {
