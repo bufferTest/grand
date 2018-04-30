@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +13,13 @@ import android.widget.TextView;
 
 import com.grandgroup.R;
 import com.grandgroup.adapter.CalenderAdapter;
+import com.grandgroup.adapter.EventsAdapter;
 import com.grandgroup.adapter.header_Adapter;
+import com.grandgroup.model.calenderModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -35,6 +37,10 @@ public class TaskManagerActivity extends BaseActivity {
     TextView month_name;
     @BindView(R.id.btn_add)
     Button btnAdd;
+    @BindView(R.id.rv_events)
+    RecyclerView rv_events;
+    @BindView(R.id.tv_no_events)
+    TextView tv_no_events;
 
     private AppCompatActivity mContext;
     private int mFirstDay;
@@ -53,6 +59,7 @@ public class TaskManagerActivity extends BaseActivity {
         month = cal.get(Calendar.MONTH);
         setUpWeekNames();
         setupcalender();
+        setEventsAdapter();
     }
 
     private void setInitialData() {
@@ -70,13 +77,13 @@ public class TaskManagerActivity extends BaseActivity {
                 mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
                 break;
             case R.id.iv_previous:
-                Log.e("clicked","clicked");
                 if (month == 0) {
                     year = year - 1;
                     month = 11;
                     cal.set(Calendar.MONTH, month);
                     cal.set(Calendar.YEAR, year);
                 } else {
+
                     month = month - 1;
                     cal.set(Calendar.MONTH, month);
                 }
@@ -84,15 +91,14 @@ public class TaskManagerActivity extends BaseActivity {
                 break;
 
             case R.id.iv_forward:
-                Log.e("clicked","clicked");
                 if (month == 11) {
-                    month = 1;
+                    month = 0;
                     year = year + 1;
                     cal.set(Calendar.MONTH, month);
                     cal.set(Calendar.YEAR, year);
                 } else {
                     month = month + 1;
-                    cal.set(Calendar.MONTH, month + 1);
+                    cal.set(Calendar.MONTH, month);
                 }
                 setupcalender();
                 break;
@@ -106,7 +112,6 @@ public class TaskManagerActivity extends BaseActivity {
     }
 
     public void setupcalender() {
-        String day = String.valueOf(cal.get(Calendar.DAY_OF_MONTH));
         int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         cal.set(Calendar.DAY_OF_MONTH, 1);
@@ -145,7 +150,7 @@ public class TaskManagerActivity extends BaseActivity {
         stringBuilder.append(year_name);
         month_name.setText(stringBuilder.toString());
 
-        setUpAdapterData(daysInMonth, mFirstDay, day);
+        setUpAdapterData(daysInMonth, mFirstDay);
     }
 
     private void setUpWeekNames() {
@@ -164,14 +169,16 @@ public class TaskManagerActivity extends BaseActivity {
         headerRecyclerView.setAdapter(headerAdapter);
     }
 
-
-    private void setUpAdapterData(int daysInMonth, int mFirstDay, String day) {
-        List<String> arrayList = new ArrayList<>();
+    private void setUpAdapterData(int daysInMonth, int mFirstDay) {
+        ArrayList<calenderModel> arrayList = new ArrayList<>();
         for (int j = 0; j < mFirstDay; j++) {
             arrayList.add(null);
         }
         for (int i = 1; i <= daysInMonth; i++) {
-            arrayList.add(String.valueOf(i));
+            calenderModel calendarModel = new calenderModel();
+            calendarModel.setSelected(false);
+            calendarModel.setValue(String.valueOf(i));
+            arrayList.add(calendarModel);
         }
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 7);
         calenderRecyclerView.setLayoutManager(gridLayoutManager);
@@ -183,5 +190,27 @@ public class TaskManagerActivity extends BaseActivity {
         });
         calenderRecyclerView.setAdapter(calenderAdpter);
         calenderAdpter.notifyDataSetChanged();
+    }
+
+
+    private void setEventsAdapter() {
+
+        ArrayList<String> daysList = new ArrayList<>();
+        daysList.add("Birthday");
+        daysList.add("Marriage");
+        daysList.add("Blood donation");
+        daysList.add("Social Service");
+        if (daysList.size() > 0) {
+
+            EventsAdapter adapter = new EventsAdapter(daysList);
+            rv_events.setHasFixedSize(true);
+            rv_events.setAdapter(adapter);
+            LinearLayoutManager llm = new LinearLayoutManager(this);
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            rv_events.setLayoutManager(llm);
+        } else {
+            tv_no_events.setVisibility(View.VISIBLE);
+            rv_events.setVisibility(View.GONE);
+        }
     }
 }
