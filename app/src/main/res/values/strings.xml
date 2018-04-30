@@ -10,6 +10,15 @@
     <string name="profilePic">thumb_image </string>
     <string name="isAdmin">is_admin</string>
 
+
+    <string name="shiftEndDateStr">shift_end_date_str</string>
+    <string name="shiftUser">shift_user</string>
+    <string name="shiftAssign">shift_assigned_by_id</string>
+    <string name="shiftDetails">shift_details</string>
+    <string name="shiftName">shift_name </string>
+    <string name="shiftStartDate">shift_start_date_str</string>
+
+
     <string name="no_events">No Events for Selected Date</string>
 
     <string name="ok">Ok</string>

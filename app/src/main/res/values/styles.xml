@@ -8,6 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CircularProgress" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
     <style name="MyDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">#046EEA</item>
         <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
@@ -32,4 +35,5 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+>>>>>>> f1ecdfa4a8b21f5f28c4e2f43d1ead2810ef3cec
 </resources>
