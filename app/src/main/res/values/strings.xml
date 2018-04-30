@@ -10,4 +10,6 @@
     <string name="profilePic">thumb_image </string>
     <string name="isAdmin">is_admin</string>
 
+    <string name="no_events">No Events for Selected Date</string>
+
 </resources>
