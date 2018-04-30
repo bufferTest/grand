@@ -16,6 +16,9 @@ import com.grandgroup.utills.AppPrefrence;
 public class SplashActivity extends AppCompatActivity {
     private AppCompatActivity mActivity;
 
+    private Handler handler;
+    private Runnable runnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +30,16 @@ public class SplashActivity extends AppCompatActivity {
         setSplashTime();
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setSplashTime();
+    }
+
     private void setSplashTime() {
-        new Handler().postDelayed(new Runnable() {
+
+        runnable = new Runnable() {
 
             @Override
             public void run() {
@@ -45,8 +56,24 @@ public class SplashActivity extends AppCompatActivity {
                     finish();
                 }
             }
-        }, 2500);
+        };
 
+        handler = new Handler();
+        int SPLASH_TIME_DURATION = 2500;
+        handler.postDelayed(runnable, SPLASH_TIME_DURATION);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.removeCallbacks(runnable);
     }
 
 }

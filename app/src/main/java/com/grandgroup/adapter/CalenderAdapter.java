@@ -28,6 +28,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Custom
     private Calendar currentcalendar;
     private Calendar calendar;
     private Integer selectedPosition;
+    private boolean firsttym = true;
 
 
     public CalenderAdapter(AppCompatActivity mContext, ArrayList<calenderModel> arrayList, Calendar calendar, onDayClick ondayclick) {
@@ -53,15 +54,18 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Custom
             if (arrayList.get(position).getSelected()) {
                 selectedPosition = position;
                 holder.lay_day.setBackground(ContextCompat.getDrawable(mContext, R.drawable.selector));
-            }else {
+            } else {
                 holder.lay_day.setBackground(null);
             }
 
-
-            if (currentcalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR))
-                if (currentcalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH))
-                    if (arrayList.get(position).getValue().equalsIgnoreCase(String.valueOf(currentcalendar.get(Calendar.DAY_OF_MONTH))))
-                        holder.material_calendar_day.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+            if (firsttym)
+                if (currentcalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR))
+                    if (currentcalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH))
+                        if (arrayList.get(position).getValue().equalsIgnoreCase(String.valueOf(currentcalendar.get(Calendar.DAY_OF_MONTH)))) {
+                            selectedPosition = position;
+                            holder.lay_day.setBackground(ContextCompat.getDrawable(mContext, R.drawable.selector));
+                            firsttym = false;
+                        }
 
         }
     }
