@@ -27,8 +27,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tool_bar" />
 
-    <TextView
-        android:id="@+id/tv_event_date"
+    <EditText
+        android:id="@+id/et_event_date"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_margin="8dp"
@@ -47,10 +47,10 @@
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_event_date" />
+        app:layout_constraintTop_toBottomOf="@+id/et_event_date" />
 
-    <TextView
-        android:id="@+id/tv_event_name"
+    <EditText
+        android:id="@+id/et_event_name"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_margin="8dp"
@@ -70,10 +70,10 @@
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_event_name" />
+        app:layout_constraintTop_toBottomOf="@+id/et_event_name" />
 
-    <TextView
-        android:id="@+id/tv_event_desc"
+    <EditText
+        android:id="@+id/et_event_desc"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_margin="8dp"
@@ -91,7 +91,7 @@
         android:layout_marginTop="30dp"
         android:background="@drawable/btn_round_corner"
         android:textColor="@color/colorWhite"
-        app:layout_constraintTop_toBottomOf="@+id/tv_event_desc"
+        app:layout_constraintTop_toBottomOf="@+id/et_event_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </android.support.constraint.ConstraintLayout>

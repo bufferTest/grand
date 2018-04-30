@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.grandgroup.R;
@@ -33,7 +34,7 @@ public class TaskManagerActivity extends BaseActivity {
     @BindView(R.id.month)
     TextView month_name;
     @BindView(R.id.btn_add)
-    TextView btnAdd;
+    Button btnAdd;
 
     private AppCompatActivity mContext;
     private int mFirstDay;
