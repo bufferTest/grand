@@ -63,8 +63,8 @@ public class TaskManagerActivity extends BaseActivity {
     }
 
     private void setInitialData() {
-        ButterKnife.bind(this);
         mContext = TaskManagerActivity.this;
+        ButterKnife.bind(mContext);
         tvTitle.setText("Task Manager");
         btnAdd.setVisibility(View.VISIBLE);
     }
