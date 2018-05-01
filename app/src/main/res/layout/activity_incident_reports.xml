@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/custom_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tool_bar">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/lay_screenshot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_affected"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:text="Affected Person Details:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_affected"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/boundary"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_affected" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Type:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/et_affected" />
+
+            <RadioGroup
+                android:id="@+id/rg_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@+id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_type">
+
+                <RadioButton
+                    android:id="@+id/rb_contractor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:text="@string/contract_provider" />
+
+                <RadioButton
+                    android:id="@+id/rb_member"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/member_visitor" />
+
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/tv_occurence"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:text="Affected Person Details:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/rg_type" />
+
+            <TextView
+                android:id="@+id/tv_occurence_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/boundary"
+                android:hint="@string/select_date_time"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_occurence" />
+
+            <TextView
+                android:id="@+id/tv_ceased"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Type:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_occurence_value" />
+
+            <RadioGroup
+                android:id="@+id/rg_ceased"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@+id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ceased">
+
+                <RadioButton
+                    android:id="@+id/rb_ceased_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/rb_ceased_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/no" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_ceased_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:text="Ceased Work Date:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/rg_ceased" />
+
+            <TextView
+                android:id="@+id/tv_ceased_time_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/boundary"
+                android:hint="@string/select_date_time"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ceased_time" />
+
+
+            <TextView
+                android:id="@+id/tv_report_time"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                android:text="Reported Date / Time:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_ceased_time_value" />
+
+            <TextView
+                android:id="@+id/tv_report_time_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/boundary"
+                android:hint="@string/select_date_time"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_report_time" />
+
+            <TextView
+                android:id="@+id/tv_occurence_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Type:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_report_time_value" />
+
+            <RadioGroup
+                android:id="@+id/rg_occurence"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@+id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_occurence_date">
+
+                <RadioButton
+                    android:id="@+id/rb_occ_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/rb_occ_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/no" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_first_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="First Name:"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rg_occurence" />
+
+            <EditText
+                android:id="@+id/et_firstname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="First Name"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_first_name" />
+
+            <TextView
+                android:id="@+id/tv_surname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Surname:"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_firstname" />
+
+            <EditText
+                android:id="@+id/et_surname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="surname"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_surname" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Gender:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/et_surname" />
+
+            <RadioGroup
+                android:id="@+id/rg_gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@+id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_gender">
+
+                <RadioButton
+                    android:id="@+id/rb_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:text="@string/yes" />
+
+                <RadioButton
+                    android:id="@+id/rb_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="@string/no" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Home Address:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rg_gender" />
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter home address"
+                android:lines="3"
+                android:maxLines="3"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_address" />
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="State:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_address" />
+
+            <EditText
+                android:id="@+id/et_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter state"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_state" />
+
+            <TextView
+                android:id="@+id/tv_postcode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Postcode:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_state" />
+
+            <EditText
+                android:id="@+id/et_postcode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter postcode"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_postcode" />
+
+            <TextView
+                android:id="@+id/tv_home_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Home Phone Number:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_postcode" />
+
+            <EditText
+                android:id="@+id/et_home_phone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter Home number"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_home_phone" />
+
+            <TextView
+                android:id="@+id/tv_mobile_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Mobile Number:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_home_phone" />
+
+            <EditText
+                android:id="@+id/et_mobile_no"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter Mobile number"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_mobile_no" />
+
+            <TextView
+                android:id="@+id/tv_birthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Birth Date:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_mobile_no" />
+
+            <TextView
+                android:id="@+id/et_birthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter birthday"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_birthday" />
+            <TextView
+                android:id="@+id/tv_occupation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Occupation:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_birthday" />
+
+            <TextView
+                android:id="@+id/et_occupation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter occupation"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_occupation" />
+            <TextView
+                android:id="@+id/tv_workplace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Workplace Name:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_occupation" />
+
+            <TextView
+                android:id="@+id/et_workplace"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="Enter Workplace Name"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_workplace" />
+
+
+            <TextView
+                android:id="@+id/tv_addres"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Address:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_workplace" />
+
+            <TextView
+                android:id="@+id/et_addres"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter address"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_addres" />
+            <TextView
+                android:id="@+id/tv_incident"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Location of the Incident at the center:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_addres" />
+
+            <TextView
+                android:id="@+id/et_incident"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter location"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_incident" />
+
+            <TextView
+                android:id="@+id/tv_event_class"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Event Classification:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/et_incident" />
+
+            <RadioGroup
+                android:id="@+id/rg_event_class"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="@+id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_event_class">
+
+                <RadioButton
+                    android:id="@+id/rb_miss"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:checked="true"
+                    android:text="Near Miss" />
+
+                <RadioButton
+                    android:id="@+id/rb_incident"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="Incident" />
+                <RadioButton
+                    android:id="@+id/rb_hazard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="Hazard" />
+                <RadioButton
+                    android:id="@+id/rb_contact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="Community Contact" />
+                <RadioButton
+                    android:id="@+id/rb_issue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/colorPrimary"
+                    android:text="HSE Document / Contact Issue" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/tv_brief"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Brief Description of the incident(eg cut to left):"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rg_event_class" />
+
+            <EditText
+                android:id="@+id/et_brief"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="test description of incident"
+                android:lines="3"
+                android:maxLines="3"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_brief" />
+
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Description of Event:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_brief" />
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="Test description of Event"
+                android:lines="4"
+                android:maxLines="4"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_description" />
+
+            <TextView
+                android:id="@+id/tv_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Immediate Action Taken:"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_description" />
+
+            <EditText
+                android:id="@+id/et_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/boundary"
+                android:hint="enter action"
+                android:lines="1"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/et_affected"
+                app:layout_constraintRight_toRightOf="@+id/et_affected"
+                app:layout_constraintTop_toBottomOf="@+id/tv_action" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.constraint.ConstraintLayout>

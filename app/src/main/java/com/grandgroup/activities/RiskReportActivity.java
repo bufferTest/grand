@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.grandgroup.R;
@@ -32,6 +33,7 @@ import static com.grandgroup.utills.AppConstant.CAMERA_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.CAMERA_REQUEST;
 import static com.grandgroup.utills.AppConstant.GALLERY_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.GALLERY_REQUEST;
+import static com.grandgroup.utills.AppConstant.SAVE_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class RiskReportActivity extends AppCompatActivity {
@@ -59,7 +61,7 @@ public class RiskReportActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.btn_back, R.id.tv_event_date, R.id.lay_photo, R.id.tv_select_likelihood, R.id.tv_select_consq,
-            R.id.et_control_eff, R.id.btn_email})
+            R.id.et_control_eff, R.id.btn_email, R.id.btn_save})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -110,7 +112,12 @@ public class RiskReportActivity extends AppCompatActivity {
                 if (PermissionUtils.requestPermission(mContext, WRITE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     createSendForm();
                 }
-
+                break;
+            case R.id.btn_save:
+                if (PermissionUtils.requestPermission(mContext, SAVE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Uri uri = CommonUtils.getInstance().createPdf(lay_screenshot, "Risk_Report_Form");
+                    Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
 
@@ -153,8 +160,6 @@ public class RiskReportActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST) {
-
-
                 if (data != null) {
                     Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
@@ -195,6 +200,10 @@ public class RiskReportActivity extends AppCompatActivity {
                 if (PermissionUtils.permissionGranted(requestCode, WRITE_PERMISSIONS_REQUEST, grantResults)) {
                     createSendForm();
                 }
+                break;
+            case SAVE_PERMISSIONS_REQUEST:
+                Uri uri = CommonUtils.getInstance().createPdf(lay_screenshot, "Risk_Report_Form");
+                Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
