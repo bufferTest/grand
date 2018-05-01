@@ -16,7 +16,7 @@
     <TextView
         android:id="@+id/tv_event_date_title"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:text="Event Date:"
         android:textColor="@color/colorPrimaryDark"
@@ -31,6 +31,7 @@
         android:layout_margin="8dp"
         android:background="@drawable/boundary"
         android:padding="8dp"
+        android:maxLines="1"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,7 @@
     <TextView
         android:id="@+id/tv_event_name_title"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:text="Event Name:"
         android:textColor="@color/colorPrimaryDark"
@@ -54,6 +55,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/boundary"
         android:padding="8dp"
+        android:maxLines="1"
         app:layout_constraintEnd_toEndOf="@+id/et_event_date"
         app:layout_constraintStart_toStartOf="@+id/et_event_date"
         app:layout_constraintTop_toBottomOf="@+id/tv_event_name_title" />
@@ -62,7 +64,7 @@
     <TextView
         android:id="@+id/tv_event_desc_title"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="13dp"
         android:text="Event Description:"
         android:textColor="@color/colorPrimaryDark"
@@ -77,6 +79,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/boundary"
         android:lines="3"
+        android:maxLines="3"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="@+id/et_event_date"
         app:layout_constraintStart_toStartOf="@+id/et_event_date"

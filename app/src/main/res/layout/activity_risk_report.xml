@@ -22,6 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tool_bar">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/lay_screenshot"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -43,7 +44,9 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/boundary"
                 android:lines="3"
+                android:maxLines="3"
                 android:padding="8dp"
+                android:imeOptions="actionNext"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_report_desc_title" />
@@ -90,6 +93,8 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/boundary"
                 android:padding="8dp"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
                 app:layout_constraintStart_toStartOf="parent"
@@ -250,6 +255,8 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/boundary"
                 android:padding="8dp"
+                android:maxLines="1"
+                android:imeOptions="actionNext"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,6 +280,8 @@
                 android:layout_margin="8dp"
                 android:background="@drawable/boundary"
                 android:padding="8dp"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="@id/tv_report_desc"
                 app:layout_constraintStart_toStartOf="parent"
@@ -295,7 +304,6 @@
                 android:layout_height="100dp"
                 android:layout_margin="8dp"
                 android:background="@drawable/boundary"
-                android:lines="3"
                 android:padding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

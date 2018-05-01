@@ -38,9 +38,10 @@ public class AttendanceActivity extends BaseActivity {
         ButterKnife.bind(mContext);
         tvTitle.setText("Attendance");
         qrScan = new IntentIntegrator(mContext);
+        qrScan.setOrientation(1);
     }
 
-    @OnClick({R.id.btn_back,R.id.btn_scan})
+    @OnClick({R.id.btn_back, R.id.btn_scan})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
