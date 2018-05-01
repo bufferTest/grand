@@ -64,7 +64,6 @@ public class ShiftStructure extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shift_structure);
         setInitialData();
-
     }
 
     private void setInitialData() {
@@ -76,7 +75,6 @@ public class ShiftStructure extends BaseActivity {
         month = cal.get(Calendar.MONTH);
         setUpWeekNames();
         setupcalender();
-        Log.d("CurrentUser", ""+ParseUser.getCurrentUser().getEmail());
     }
 
     @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})
@@ -112,7 +110,6 @@ public class ShiftStructure extends BaseActivity {
                 }
                 setupcalender();
                 break;
-
         }
     }
 
@@ -154,7 +151,6 @@ public class ShiftStructure extends BaseActivity {
         stringBuilder.append(", ");
         stringBuilder.append(year_name);
         month_name.setText(stringBuilder.toString());
-
         setUpAdapterData(daysInMonth, mFirstDay);
     }
 
