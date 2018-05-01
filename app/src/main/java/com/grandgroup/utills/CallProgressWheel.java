@@ -3,10 +3,11 @@ package com.grandgroup.utills;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.grandgroup.R;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 
 public class CallProgressWheel {
@@ -22,8 +23,7 @@ public class CallProgressWheel {
                 dismissLoadingDialog();
             }
 
-            if (context instanceof Activity)
-            {
+            if (context instanceof Activity) {
                 Activity activity = (Activity) context;
                 if (activity.isFinishing()) {
                     return;
@@ -37,14 +37,10 @@ public class CallProgressWheel {
             progressDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
             progressDialog.setCancelable(false);
             progressDialog.setContentView(R.layout.progresswheel);
-         //   RelativeLayout frameLayout =  progressDialog.findViewById(R.id.dlgProgress);
 
+            ImageView imageView = progressDialog.findViewById(R.id.iv_image);
+            Glide.with(context).load(R.drawable.loading).into(imageView);
 
-            ((ProgressWheel) progressDialog.findViewById(R.id.progress_wheel)).spin();
-            // Set Message below progress wheel
-            //TextView messageText = (TextView) progressDialog.findViewById(R.id.tvProgress);
-            //  messageText.setTypeface(DataLogin.getFont(context));
-            //  messageText.setText(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,12 +48,13 @@ public class CallProgressWheel {
     }
 
     public static void dismissLoadingDialog() {
-        try{
-            if(progressDialog != null){
+        try {
+            if (progressDialog != null) {
                 progressDialog.dismiss();
                 progressDialog = null;
-            }} catch(Exception e){
-            Log.e("e", "=" + e);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

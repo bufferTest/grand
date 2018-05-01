@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="5dp"
         android:padding="5dp"
@@ -25,6 +25,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
@@ -34,7 +35,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/btn_add"
+            android:id="@+id/btn_done"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -48,8 +49,8 @@
 
     <android.gesture.GestureOverlayView
         android:id="@+id/signaturePad"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="20dp"
         android:background="@color/colorWhite"
         android:eventsInterceptionEnabled="true"
@@ -59,6 +60,9 @@
         android:gestureStrokeLengthThreshold="0.1"
         android:gestureStrokeType="multiple"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/gd_60"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
     <Button
@@ -72,5 +76,12 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signaturePad" />
+        app:layout_constraintTop_toBottomOf="@+id/gd_60" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/gd_60"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
 </android.support.constraint.ConstraintLayout>
