@@ -23,9 +23,14 @@
     <string name="message">message</string>
 
 
-
     <string name="no_events">No Events for Selected Date</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+
+    <string name="contract_provider">Contractor/Service Provider</string>
+    <string name="member_visitor">Member of the Public/Visitor</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="select_date_time">Select Date / Time</string>
 
 </resources>
