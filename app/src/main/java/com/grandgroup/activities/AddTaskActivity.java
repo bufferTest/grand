@@ -24,8 +24,8 @@ public class AddTaskActivity extends BaseActivity {
     }
 
     private void setInitialData() {
-        ButterKnife.bind(this);
         mContext = AddTaskActivity.this;
+        ButterKnife.bind(mContext);
         tvTitle.setText("add Task");
     }
 

@@ -5,9 +5,9 @@
         android:width="4dp"
         android:color="#00000000" />
 
-    // the inside color
+
     <solid
-        android:color="#80000000"
+        android:color="#1A4DFC"
         />
 
     <corners android:radius="6dp" />

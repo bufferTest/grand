@@ -22,6 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.grandgroup.R;
 import com.grandgroup.model.UserProfileBean;
@@ -34,7 +37,6 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 
@@ -82,7 +84,14 @@ public class UserProfileActivity extends BaseActivity {
 
         if (userProfileObj.getUserProfilePicUrl() != null) {
             if (!userProfileObj.getUserProfilePicUrl().equals(""))
-                Picasso.with(mContext).load(userProfileObj.getUserProfilePicUrl()).placeholder(R.drawable.default_user).error(R.drawable.default_user).into(ivUserPic);
+                Glide.with(mContext).load(userProfileObj.getUserProfilePicUrl())
+                        .apply(new RequestOptions()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .placeholder(R.drawable.default_user)
+                                .error(R.drawable.default_user)
+                                .dontAnimate()
+                                .centerCrop()
+                                .dontTransform()).into(ivUserPic);
 
         }
     }

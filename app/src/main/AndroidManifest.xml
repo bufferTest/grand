@@ -47,7 +47,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AttendanceActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity
             android:name=".activities.ShiftStructure"
             android:screenOrientation="portrait" />
