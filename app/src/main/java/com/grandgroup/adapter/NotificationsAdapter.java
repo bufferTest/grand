@@ -35,7 +35,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
 
     @Override
     public void onBindViewHolder(@NonNull NotificationsAdapter.CustomHolder holder, int position) {
-        holder.tvTime.setVisibility(View.GONE);
+        holder.tvTime.setVisibility(View.VISIBLE);
         holder.tvText.setText(dayList.get(position).getMessage());
         holder.tvTime.setText(dayList.get(position).getTime());
     }
