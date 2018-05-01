@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.grandgroup.R;
+import com.grandgroup.views.CustomDateDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +36,14 @@ public class AddTaskActivity extends BaseActivity {
             case R.id.btn_back:
                 finish();
                 mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
+                break;
+            case R.id.et_event_date:
+                CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
+                    @Override
+                    public void onOkayClick(int date, int month, int year) {
+
+                    }
+                });
         }
     }
 }

@@ -64,10 +64,14 @@ public class LoginActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
+
+        mContext = LoginActivity.this;
+        ButterKnife.bind(mContext);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        ButterKnife.bind(this);
-        mContext = LoginActivity.this;
+
+
 
         // set backgroud color to drawable
         bgShape = (GradientDrawable) btnLogin.getBackground();

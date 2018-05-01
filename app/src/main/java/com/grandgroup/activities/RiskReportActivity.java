@@ -4,23 +4,21 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.grandgroup.R;
-import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
@@ -30,10 +28,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class RiskReportActivity extends AppCompatActivity {
+import static com.grandgroup.utills.AppConstant.CAMERA_PERMISSIONS_REQUEST;
+import static com.grandgroup.utills.AppConstant.CAMERA_REQUEST;
+import static com.grandgroup.utills.AppConstant.GALLERY_PERMISSIONS_REQUEST;
+import static com.grandgroup.utills.AppConstant.GALLERY_REQUEST;
+import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
-    public final int CAMERA_PERMISSIONS_REQUEST = 123;
-    public final int GALLERY_PERMISSIONS_REQUEST =124;
+public class RiskReportActivity extends AppCompatActivity {
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_event_date)
@@ -46,6 +47,8 @@ public class RiskReportActivity extends AppCompatActivity {
     TextView tv_select_consq;
     @BindView(R.id.et_control_eff)
     TextView et_control_eff;
+    @BindView(R.id.lay_screenshot)
+    ConstraintLayout lay_screenshot;
     private AppCompatActivity mContext;
 
     @Override
@@ -55,9 +58,14 @@ public class RiskReportActivity extends AppCompatActivity {
         setInitialData();
     }
 
-    @OnClick({R.id.tv_event_date, R.id.lay_photo,R.id.tv_select_likelihood,R.id.tv_select_consq,R.id.et_control_eff})
+    @OnClick({R.id.btn_back, R.id.tv_event_date, R.id.lay_photo, R.id.tv_select_likelihood, R.id.tv_select_consq,
+            R.id.et_control_eff, R.id.btn_email})
     public void onclick(View view) {
         switch (view.getId()) {
+            case R.id.btn_back:
+                finish();
+                mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
+                break;
             case R.id.tv_event_date:
                 CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
                     @Override
@@ -72,8 +80,7 @@ public class RiskReportActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.lay_photo:
-                CallProgressWheel.showLoadingDialog(mContext);
-//                selectImage();
+                selectImage();
                 break;
             case R.id.tv_select_likelihood:
                 CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
@@ -98,6 +105,12 @@ public class RiskReportActivity extends AppCompatActivity {
                         et_control_eff.setText(Item);
                     }
                 });
+                break;
+            case R.id.btn_email:
+                if (PermissionUtils.requestPermission(mContext, WRITE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    createSendForm();
+                }
+
                 break;
         }
 
@@ -139,23 +152,24 @@ public class RiskReportActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+            if (requestCode == CAMERA_REQUEST) {
 
 
                 if (data != null) {
                     Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
 
                     Uri tempUri = CommonUtils.getInstance().getImageUri(mContext, thumbnail);
-                    iv_image.setImageBitmap(thumbnail);
+                    Glide.with(mContext).load(tempUri).into(iv_image);
                 }
 
-            } else if (requestCode == 2) {
+            } else if (requestCode == GALLERY_REQUEST) {
                 if (data != null) {
                     Bitmap bitmap = null;
                     try {
                         Uri tempUri = data.getData();
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), tempUri);
-                        iv_image.setImageBitmap(bitmap);
+                        Glide.with(mContext).load(tempUri).into(iv_image);
+                       /* bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), tempUri);
+                        iv_image.setImageBitmap(bitmap);*/
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -177,20 +191,35 @@ public class RiskReportActivity extends AppCompatActivity {
                     GalleryIntent();
                 }
                 break;
+            case WRITE_PERMISSIONS_REQUEST:
+                if (PermissionUtils.permissionGranted(requestCode, WRITE_PERMISSIONS_REQUEST, grantResults)) {
+                    createSendForm();
+                }
+                break;
         }
     }
 
     private void startCamera() {
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        startActivityForResult(cameraIntent, 1);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
-    private void GalleryIntent(){
+    private void GalleryIntent() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 2);
+        startActivityForResult(intent, GALLERY_REQUEST);
     }
 
+    private void createSendForm() {
+        Uri uri = CommonUtils.getInstance().createPdf(lay_screenshot, "Risk_Report_Form");
 
+        ShareCompat.IntentBuilder.from(mContext)
+                .setType("message/rfc822")
+                .setSubject("Risk Report Form")
+                .setText("Risk Report Form.")
+                .setStream(uri)
+                .setChooserTitle("Share Form")
+                .startChooser();
+    }
 
 }

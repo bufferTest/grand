@@ -67,10 +67,14 @@ public class ShiftStructure extends BaseActivity {
     }
 
     private void setInitialData() {
-        ButterKnife.bind(this);
         mContext = ShiftStructure.this;
+        ButterKnife.bind(mContext);
         tvTitle.setText("Shift Structure");
+        cal.setTimeInMillis(System.currentTimeMillis());
+        year = cal.get(Calendar.YEAR);
+        month = cal.get(Calendar.MONTH);
         setUpWeekNames();
+        setupcalender();
     }
 
     @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})

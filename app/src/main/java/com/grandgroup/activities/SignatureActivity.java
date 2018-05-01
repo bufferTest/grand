@@ -2,21 +2,15 @@ package com.grandgroup.activities;
 
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.grandgroup.R;
-import com.grandgroup.utills.CommonUtils;
 import com.parse.ParseFile;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,22 +57,6 @@ public class SignatureActivity extends AppCompatActivity {
         }
 
 
-    }
-
-    private String saveBitMap (Bitmap bitmap){
-        String filename = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Docmein/Signature/"
-                + Math.abs(new Random().nextInt()) + ".jpeg";
-        File pictureFile = new File(filename);
-        try {
-            pictureFile.createNewFile();
-            FileOutputStream oStream = new FileOutputStream(pictureFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, oStream);
-            oStream.flush();
-            oStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return filename;
     }
 }
 
