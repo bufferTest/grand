@@ -128,12 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                     CallProgressWheel.dismissLoadingDialog();
                     UserProfileBean userProfileBean = new UserProfileBean();
                     ParseUser parseUser = ParseUser.getCurrentUser();
-                   /* parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, com.parse.ParseException e) {
-                            if (e == null) {*/
                                 AppPrefrence.init(mContext).putBoolean(AppConstant.IS_LOGGED_IN,true);
-                                //  BloodDonationHelper.bloodDonationHelper(mContext).dismissLoader();
                             userProfileBean.setUserFirstName(parseUser.getString(getString(R.string.userFirstName)));
                             userProfileBean.setUserLastName(parseUser.getString(getString(R.string.userLastName)));
                             userProfileBean.setUserEmail(parseUser.getString(getString(R.string.userEmail)));
@@ -151,16 +146,9 @@ public class LoginActivity extends AppCompatActivity {
                                 startActivity(new Intent(mContext, DashBoardActivity.class));
                                 mContext.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
                                 finish();
-                            /*} else {
-                                //  BloodDonationHelper.bloodDonationHelper(mContext).dismissLoader();
-                                Toast.makeText(getApplicationContext(), "Invalid email or password!", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });*/
 
                 } else {
                     CallProgressWheel.dismissLoadingDialog();
-                    // GrandGroupHelper.grandGroupHelper(mContext).d();
                     Toast.makeText(getApplicationContext(),"Invalid email or password!", Toast.LENGTH_LONG).show();
                 }
             }

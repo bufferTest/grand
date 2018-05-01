@@ -64,6 +64,7 @@ public class ShiftStructure extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shift_structure);
         setInitialData();
+
     }
 
     private void setInitialData() {
@@ -71,6 +72,7 @@ public class ShiftStructure extends BaseActivity {
         mContext = ShiftStructure.this;
         tvTitle.setText("Shift Structure");
         setUpWeekNames();
+        Log.d("CurrentUser", ""+ParseUser.getCurrentUser().getEmail());
     }
 
     @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})
@@ -198,8 +200,12 @@ public class ShiftStructure extends BaseActivity {
     public void fetchShifts(String shiftStartDate) {
         if (GrandGroupHelper.grandGroupHelper(mContext).CheckIsConnectedToInternet()) {
             CallProgressWheel.showLoadingDialog(mContext);
+            ParseUser user = ParseUser.getCurrentUser();
+            user.getParseUser("companyId");
+
+
             ParseQuery<ParseObject> query = ParseQuery.getQuery(shiftStartDate);
-            query.whereEqualTo("shift_start_date", ParseUser.getCurrentUser());
+            query.whereEqualTo("shift_start_date", shiftStartDate);
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> userList, ParseException e) {
