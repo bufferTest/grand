@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.grandgroup.R;
+import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
@@ -71,7 +72,8 @@ public class RiskReportActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.lay_photo:
-                selectImage();
+                CallProgressWheel.showLoadingDialog(mContext);
+//                selectImage();
                 break;
             case R.id.tv_select_likelihood:
                 CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {

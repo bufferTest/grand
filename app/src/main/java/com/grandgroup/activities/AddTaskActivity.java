@@ -26,7 +26,7 @@ public class AddTaskActivity extends BaseActivity {
     private void setInitialData() {
         mContext = AddTaskActivity.this;
         ButterKnife.bind(mContext);
-        tvTitle.setText("add Task");
+        tvTitle.setText("Add Task");
     }
 
     @OnClick({R.id.btn_back})
