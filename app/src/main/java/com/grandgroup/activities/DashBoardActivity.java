@@ -35,7 +35,6 @@ public class DashBoardActivity extends AppCompatActivity {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         ButterKnife.bind(this);
         mContext = DashBoardActivity.this;
-
     }
 
     @OnClick({R.id.iv_notifications, R.id.iv_settings, R.id.iv_task_manager, R.id.iv_attendance, R.id.iv_shift_structure, R.id.iv_report, R.id.iv_my_profile, R.id.iv_logout})
