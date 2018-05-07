@@ -1,7 +1,12 @@
 package com.grandgroup.activities;
 
+import android.Manifest;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +16,34 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.grandgroup.R;
+import com.grandgroup.utills.AppConstant;
+import com.grandgroup.utills.AppPrefrence;
+import com.grandgroup.utills.CallProgressWheel;
+import com.grandgroup.utills.CommonUtils;
+import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
 import com.grandgroup.views.CustomTimeDialog;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.grandgroup.utills.AppConstant.CAMERA_PERMISSIONS_REQUEST;
+import static com.grandgroup.utills.AppConstant.GALLERY_PERMISSIONS_REQUEST;
+import static com.grandgroup.utills.AppConstant.SAVE_PERMISSIONS_REQUEST;
+import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class IncidentReportsActivity extends BaseActivity {
 
@@ -388,7 +413,7 @@ public class IncidentReportsActivity extends BaseActivity {
     }
 
     @OnClick({R.id.btn_back, R.id.btn_add, R.id.rg_type, R.id.rg_ceased, R.id.rg_occurence, R.id.rg_gender, R.id.rg_third_party, R.id.rg_prop_damage, R.id.rg_attend_affe, R.id.rg_first_aid, R.id.lay_signature, R.id.lay_amb_per_sign, R.id.rg_cctv, R.id.rg_wand_report, R.id.rg_wet_weather, R.id.rg_incident_specs, R.id.lay_screenshot,
-            R.id.tv_occurence_value,R.id.tv_ceased_time_value,R.id.tv_report_time_value,R.id.et_birthday,R.id.et_date_atten})
+            R.id.tv_occurence_value,R.id.tv_ceased_time_value,R.id.tv_report_time_value,R.id.et_birthday,R.id.et_date_atten, R.id.btn_email, R.id.btn_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -504,8 +529,76 @@ public class IncidentReportsActivity extends BaseActivity {
                     }
                 });
                 break;
+
+            case R.id.btn_email:
+                if (PermissionUtils.requestPermission(mContext, WRITE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    createSendForm();
+                }
+                break;
+            case R.id.btn_save:
+                if (PermissionUtils.requestPermission(mContext, SAVE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Uri uri = CommonUtils.getInstance().createPdf(layScreenshot, "Incident_Report_Form");
+                    Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case WRITE_PERMISSIONS_REQUEST:
+                if (PermissionUtils.permissionGranted(requestCode, WRITE_PERMISSIONS_REQUEST, grantResults)) {
+                    createSendForm();
+                }
+                break;
+            case SAVE_PERMISSIONS_REQUEST:
+                Uri uri = CommonUtils.getInstance().createPdf(layScreenshot, "Incident_Report_Form");
+                Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void createSendForm() {
+        Uri uri = CommonUtils.getInstance().createPdf(layScreenshot, "Incident_Report_Form");
+
+        ShareCompat.IntentBuilder.from(mContext)
+                .setType("message/rfc822")
+                .setSubject("Incident Report Form")
+                .setText("Incident Report Form")
+                .setStream(uri)
+                .setChooserTitle("Share Form")
+                .startChooser();
+    }
+
+    /*private void saveDataOnParse(){
+       final ParseUser parseUser = ParseUser.getCurrentUser();
+        parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, com.parse.ParseException e) {
+                if (e == null) {
+                    parseUser.saveInBackground();
+                    object.put(getString(R.string.userFirstName), userFirstName);
+                    object.put(getString(R.string.userLastName), userLastName);
+                    object.put(getString(R.string.userEmail), userEmail);
+
+
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                            }
+                        }
+                    });
+                } else {
+                    //   BloodDonationHelper.bloodDonationHelper(mContext).dismissLoader();
+                    Toast.makeText(getApplicationContext(), "Please, Try Again", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+    }*/
 
     private void getData(){
         etAffected.getText().toString();

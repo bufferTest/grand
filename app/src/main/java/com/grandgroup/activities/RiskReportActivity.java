@@ -14,7 +14,10 @@ import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,54 @@ public class RiskReportActivity extends AppCompatActivity {
     TextView et_control_eff;
     @BindView(R.id.lay_screenshot)
     ConstraintLayout lay_screenshot;
+    @BindView(R.id.btn_back)
+    Button btnBack;
+    @BindView(R.id.btn_add)
+    Button btnAdd;
+    @BindView(R.id.my_toolbar)
+    RelativeLayout myToolbar;
+    @BindView(R.id.tv_report_desc_title)
+    TextView tvReportDescTitle;
+    @BindView(R.id.tv_report_desc)
+    EditText tvReportDesc;
+    @BindView(R.id.tv_report_date_time_title)
+    TextView tvReportDateTimeTitle;
+    @BindView(R.id.tv_location)
+    TextView tvLocation;
+    @BindView(R.id.et_location)
+    EditText etLocation;
+    @BindView(R.id.tv_photo)
+    TextView tvPhoto;
+    @BindView(R.id.lay_photo)
+    ConstraintLayout layPhoto;
+    @BindView(R.id.tv_likelihood)
+    TextView tvLikelihood;
+    @BindView(R.id.tv_consequence)
+    TextView tvConsequence;
+    @BindView(R.id.tv_controls)
+    TextView tvControls;
+    @BindView(R.id.et_controls)
+    TextView etControls;
+    @BindView(R.id.tv_control_eff)
+    TextView tvControlEff;
+    @BindView(R.id.tv_action_plan)
+    TextView tvActionPlan;
+    @BindView(R.id.et_action_plan)
+    EditText etActionPlan;
+    @BindView(R.id.tv_reported_by)
+    TextView tvReportedBy;
+    @BindView(R.id.et_reported_by)
+    EditText etReportedBy;
+    @BindView(R.id.tv_signature)
+    TextView tvSignature;
+    @BindView(R.id.iv_signature)
+    ImageView ivSignature;
+    @BindView(R.id.lay_signature)
+    ConstraintLayout laySignature;
+    @BindView(R.id.btn_email)
+    Button btnEmail;
+    @BindView(R.id.btn_save)
+    Button btnSave;
     private AppCompatActivity mContext;
 
     @Override
@@ -129,6 +180,10 @@ public class RiskReportActivity extends AppCompatActivity {
         tvTitle.setText("Risk / Hazard Report");
     }
 
+    private void getData() {
+        tvReportDesc.getText().toString();
+        tv_event_date.getText().toString();
+    }
 
     private void selectImage() {
         final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
@@ -209,13 +264,13 @@ public class RiskReportActivity extends AppCompatActivity {
     }
 
     private void startCamera() {
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         cameraIntent.putExtra(MediaStore.EXTRA_SCREEN_ORIENTATION, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
     private void GalleryIntent() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, GALLERY_REQUEST);
     }
 
