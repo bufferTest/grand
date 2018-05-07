@@ -378,7 +378,6 @@ public class IncidentReportsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_incident_reports);
-        ButterKnife.bind(this);
         setInitialData();
     }
 
@@ -389,7 +388,7 @@ public class IncidentReportsActivity extends BaseActivity {
     }
 
     @OnClick({R.id.btn_back, R.id.btn_add, R.id.rg_type, R.id.rg_ceased, R.id.rg_occurence, R.id.rg_gender, R.id.rg_third_party, R.id.rg_prop_damage, R.id.rg_attend_affe, R.id.rg_first_aid, R.id.lay_signature, R.id.lay_amb_per_sign, R.id.rg_cctv, R.id.rg_wand_report, R.id.rg_wet_weather, R.id.rg_incident_specs, R.id.lay_screenshot,
-            R.id.tv_occurence_value,R.id.tv_ceased_time_value,R.id.tv_report_time_value})
+            R.id.tv_occurence_value,R.id.tv_ceased_time_value,R.id.tv_report_time_value,R.id.et_birthday,R.id.et_date_atten})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -403,6 +402,17 @@ public class IncidentReportsActivity extends BaseActivity {
             case R.id.rg_ceased:
                 break;
             case R.id.rg_occurence:
+                CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
+                    @Override
+                    public void onOkayClick(int date, int month, int year) {
+                        CustomTimeDialog.getInstance().timePicker(mContext, new CustomTimeDialog.TimeDialogListener() {
+                            @Override
+                            public void onOkayClick(String twentyFourTime, String TwelveHourTime) {
+
+                            }
+                        });
+                    }
+                });
                 break;
             case R.id.rg_gender:
                 break;
@@ -467,6 +477,99 @@ public class IncidentReportsActivity extends BaseActivity {
                     }
                 });
                 break;
+            case R.id.et_birthday:
+                CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
+                    @Override
+                    public void onOkayClick(int date, int month, int year) {
+                        CustomTimeDialog.getInstance().timePicker(mContext, new CustomTimeDialog.TimeDialogListener() {
+                            @Override
+                            public void onOkayClick(String twentyFourTime, String TwelveHourTime) {
+
+                            }
+                        });
+                    }
+                });
+                break;
+
+            case R.id.et_date_atten:
+                CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
+                    @Override
+                    public void onOkayClick(int date, int month, int year) {
+                        CustomTimeDialog.getInstance().timePicker(mContext, new CustomTimeDialog.TimeDialogListener() {
+                            @Override
+                            public void onOkayClick(String twentyFourTime, String TwelveHourTime) {
+
+                            }
+                        });
+                    }
+                });
+                break;
         }
+    }
+
+    private void getData(){
+        etAffected.getText().toString();
+        rgType.getCheckedRadioButtonId();
+        tvOccurenceValue.getText().toString();
+        rgCeased.getCheckedRadioButtonId();
+        tvCeasedTimeValue.getText().toString();
+        tvReportTimeValue.getText().toString();
+        rgOccurence.getCheckedRadioButtonId();
+        etFirstname.getText().toString();
+        etSurname.getText().toString();
+        rgGender.getCheckedRadioButtonId();
+        etAddress.getText().toString();
+
+        etState.getText().toString();
+        etPostcode.getText().toString();
+        etHomePhone.getText().toString();
+        etMobileNo.getText().toString();
+        etBirthday.getText().toString();
+        etOccupation.getText().toString();
+        etWorkplace.getText().toString();
+        etAddres.getText().toString();
+        etIncident.getText().toString();
+        rgEventClass.getCheckedRadioButtonId();
+        etBrief.getText().toString();
+        etDescription.getText().toString();
+        etAction.getText().toString();
+        etInjury.getText().toString();
+        etIllness.getText().toString();
+        etBodily.getText().toString();
+        etMark.getText().toString();
+        etMechanism.getText().toString();
+        etOthers.getText().toString();
+        etObserve.getText().toString();
+        rgThirdParty.getCheckedRadioButtonId();
+        etThirdReport.getText().toString();
+        rgPropDamage.getCheckedRadioButtonId();
+        etDamageAdv.getText().toString();
+        etDamageVeh.getText().toString();
+        rgAttendAffe.getCheckedRadioButtonId();
+        etName.getText().toString();
+        rgFirstAid.getCheckedRadioButtonId();
+        etAidName.getText().toString();
+        etInjuryDetail.getText().toString();
+        etMedCenter.getText().toString();
+        etDateAtten.getText().toString();
+        rgAmbulance.getCheckedRadioButtonId();
+        etAmbReq.getText().toString();
+        etAmbPerName.getText().toString();
+        etAmbDate.getText().toString();
+        rgWeather.getCheckedRadioButtonId();
+        etWeatherCond.getText().toString();
+        rgDrugAffect.getCheckedRadioButtonId();
+        etFootwear.getText().toString();
+        etEyewear.getText().toString();
+        etCarrying.getText().toString();
+        rgCctv.getCheckedRadioButtonId();
+        rgPhotos.getCheckedRadioButtonId();
+        rgWandReport.getCheckedRadioButtonId();
+        rgWetWeather.getCheckedRadioButtonId();
+        etComment.getText().toString();
+        rgIncidentSpecs.getCheckedRadioButtonId();
+        etNotes.getText().toString();
+
+
     }
 }
