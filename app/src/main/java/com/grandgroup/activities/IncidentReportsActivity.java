@@ -572,16 +572,18 @@ public class IncidentReportsActivity extends BaseActivity {
                 .startChooser();
     }
 
-    /*private void saveDataOnParse(){
+    private void saveDataOnParse(){
        final ParseUser parseUser = ParseUser.getCurrentUser();
-        parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+        parseUser.getParseObject("IncidentReport").fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, com.parse.ParseException e) {
                 if (e == null) {
                     parseUser.saveInBackground();
-                    object.put(getString(R.string.userFirstName), userFirstName);
-                    object.put(getString(R.string.userLastName), userLastName);
-                    object.put(getString(R.string.userEmail), userEmail);
+                    object.put("weather_option",  etAffected.getText().toString());
+                    object.put("occourance_date",  etAffected.getText().toString());
+                    object.put("incedent_option",  etAffected.getText().toString());
+                    object.put("incedent_location",  etAffected.getText().toString());
+                    object.put("incedent_location",  etAffected.getText().toString());
 
 
                     object.saveInBackground(new SaveCallback() {
@@ -598,7 +600,7 @@ public class IncidentReportsActivity extends BaseActivity {
             }
         });
 
-    }*/
+    }
 
     private void getData(){
         etAffected.getText().toString();
