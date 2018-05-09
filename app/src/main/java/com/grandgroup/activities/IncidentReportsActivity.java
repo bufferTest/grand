@@ -583,9 +583,47 @@ public class IncidentReportsActivity extends BaseActivity {
                     object.put("occourance_date",  etAffected.getText().toString());
                     object.put("incedent_option",  etAffected.getText().toString());
                     object.put("incedent_location",  etAffected.getText().toString());
-                    object.put("incedent_location",  etAffected.getText().toString());
+                    object.put("person_post_code",  etAffected.getText().toString());
+                    object.put("injury_type",  etAffected.getText().toString());
+                    object.put("photo_option",  etAffected.getText().toString());
+                    object.put("third_party_detail",  etAffected.getText().toString());
+                    object.put("cease_option",  etAffected.getText().toString());
+                    object.put("medical_center",  etAffected.getText().toString());
+
+                    object.put("weather_conditions",  etAffected.getText().toString());
+                    object.put("breakdown_agency",  etAffected.getText().toString());
+                    object.put("person_sur_name",  etAffected.getText().toString());
+                    object.put("person_first_name",  etAffected.getText().toString());
+                    object.put("same_occourance",  etAffected.getText().toString());
+                    object.put("third_party_option",  etAffected.getText().toString());
+                    object.put("first_aid_option",  etAffected.getText().toString());
+                    object.put("person_state",  etAffected.getText().toString());
+                    object.put("person_gender_option",  etAffected.getText().toString());
+                    object.put("eyewear_type",  etAffected.getText().toString());
+                    object.put("witness_statement",  etAffected.getText().toString());
+                    object.put("person_drug_option",  etAffected.getText().toString());
+                    object.put("other_mechanism",  etAffected.getText().toString());
+                    object.put("person_address",  etAffected.getText().toString());
+                    object.put("damage_type",  etAffected.getText().toString());
+                    object.put("date_attended",  etAffected.getText().toString());
+                    object.put("additional_comments",  etAffected.getText().toString());
+                    object.put("footwaer_type",  etAffected.getText().toString());
+                    object.put("incident_report_person_signature",  etAffected.getText().toString()); //file
+                    object.put("incident_report_date",  etAffected.getText().toString());
+                    object.put("vehicle_damage_detail",  etAffected.getText().toString());
+                    object.put("effected_person_detail",  etAffected.getText().toString());
+                    object.put("attendee_name",  etAffected.getText().toString());
+                    object.put("incident_report_date",  etAffected.getText().toString());
+                    object.put("injury_machanism",  etAffected.getText().toString());
 
 
+
+
+
+
+
+
+                    object.put("first_add_signature",  etAffected.getText().toString());
                     object.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
