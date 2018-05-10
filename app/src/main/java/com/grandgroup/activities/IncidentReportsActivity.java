@@ -24,6 +24,7 @@ import com.grandgroup.utills.AppConstant;
 import com.grandgroup.utills.AppPrefrence;
 import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
+import com.grandgroup.utills.GrandGroupHelper;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
 import com.grandgroup.views.CustomTimeDialog;
@@ -536,10 +537,11 @@ public class IncidentReportsActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_save:
-                if (PermissionUtils.requestPermission(mContext, SAVE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                /*if (PermissionUtils.requestPermission(mContext, SAVE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Uri uri = CommonUtils.getInstance().createPdf(layScreenshot, "Incident_Report_Form");
                     Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
-                }
+                }*/
+                saveDataOnParse();
                 break;
         }
     }
@@ -561,6 +563,7 @@ public class IncidentReportsActivity extends BaseActivity {
     }
 
     private void createSendForm() {
+        CallProgressWheel.showLoadingDialog(mContext);
         Uri uri = CommonUtils.getInstance().createPdf(layScreenshot, "Incident_Report_Form");
 
         ShareCompat.IntentBuilder.from(mContext)
@@ -570,6 +573,7 @@ public class IncidentReportsActivity extends BaseActivity {
                 .setStream(uri)
                 .setChooserTitle("Share Form")
                 .startChooser();
+        CallProgressWheel.dismissLoadingDialog();
     }
 
     private void saveDataOnParse(){
@@ -580,7 +584,7 @@ public class IncidentReportsActivity extends BaseActivity {
                 if (e == null) {
                     parseUser.saveInBackground();
                     object.put("weather_option",  etAffected.getText().toString());
-                    object.put("occourance_date",  etAffected.getText().toString());
+                    /*object.put("occourance_date",  etAffected.getText().toString());
                     object.put("incedent_option",  etAffected.getText().toString());
                     object.put("incedent_location",  etAffected.getText().toString());
                     object.put("person_post_code",  etAffected.getText().toString());
@@ -589,7 +593,6 @@ public class IncidentReportsActivity extends BaseActivity {
                     object.put("third_party_detail",  etAffected.getText().toString());
                     object.put("cease_option",  etAffected.getText().toString());
                     object.put("medical_center",  etAffected.getText().toString());
-
                     object.put("weather_conditions",  etAffected.getText().toString());
                     object.put("breakdown_agency",  etAffected.getText().toString());
                     object.put("person_sur_name",  etAffected.getText().toString());
@@ -615,19 +618,41 @@ public class IncidentReportsActivity extends BaseActivity {
                     object.put("attendee_name",  etAffected.getText().toString());
                     object.put("incident_report_date",  etAffected.getText().toString());
                     object.put("injury_machanism",  etAffected.getText().toString());
-
-
-
-
-
-
-
-
-                    object.put("first_add_signature",  etAffected.getText().toString());
+                    object.put("cctv_option",  etAffected.getText().toString()); // number
+                    object.put("other_breakdown_agency",  etAffected.getText().toString());
+                    object.put("body_location",  etAffected.getText().toString());
+                    object.put("carring_type",  etAffected.getText().toString());
+                    object.put("incident_report_person",  etAffected.getText().toString());
+                    object.put("warning_sign_option",  etAffected.getText().toString());
+                    object.put("affected_person_option",  etAffected.getText().toString());
+                    object.put("person_occupation",  etAffected.getText().toString());
+                    object.put("injury_mark",  etAffected.getText().toString());
+                    object.put("ambulance_attend_option",  etAffected.getText().toString()); //number
+                    object.put("injury_illness",  etAffected.getText().toString());
+                    object.put("person_home_phone",  etAffected.getText().toString());
+                    object.put("injury_illness_detail",  etAffected.getText().toString());
+                    object.put("what_you_see",  etAffected.getText().toString());
+                    object.put("person_birth_date",  etAffected.getText().toString());
+                    object.put("wet_weather_option",  etAffected.getText().toString()); //number
+                    object.put("attended_person_option",  etAffected.getText().toString());
+                    object.put("event_desc_desc",  etAffected.getText().toString());
+                    object.put("reported_date",  etAffected.getText().toString());
+                    object.put("person_mobile_phone",  etAffected.getText().toString());
+                    object.put("property_damage_option",  etAffected.getText().toString());
+                    object.put("ambulance_who",  etAffected.getText().toString());
+                    object.put("cease_date",  etAffected.getText().toString());
+                    object.put("first_aid_name",  etAffected.getText().toString());
+                    object.put("person_phone_address",  etAffected.getText().toString());
+                    object.put("action_taken",  etAffected.getText().toString());
+                    object.put("incident_desc",  etAffected.getText().toString());
+                    object.put("person_workplace_name",  etAffected.getText().toString());
+                    object.put("event_type",  etAffected.getText().toString());
+                    object.put("first_add_signature",  etAffected.getText().toString()); // file*/
                     object.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
                             if (e == null) {
+                                Toast.makeText(getApplicationContext(), "saved", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

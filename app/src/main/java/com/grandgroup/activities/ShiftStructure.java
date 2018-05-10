@@ -201,9 +201,6 @@ public class ShiftStructure extends BaseActivity {
         if (GrandGroupHelper.grandGroupHelper(mContext).CheckIsConnectedToInternet()) {
             CallProgressWheel.showLoadingDialog(mContext);
             ParseUser user = ParseUser.getCurrentUser();
-            user.getParseUser("companyId");
-
-
             ParseQuery<ParseObject> query = ParseQuery.getQuery(shiftStartDate);
             query.whereEqualTo("shift_start_date", shiftStartDate);
             query.findInBackground(new FindCallback<ParseObject>() {

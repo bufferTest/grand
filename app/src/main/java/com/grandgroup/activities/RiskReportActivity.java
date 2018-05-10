@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.grandgroup.R;
+import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
@@ -275,6 +276,7 @@ public class RiskReportActivity extends AppCompatActivity {
     }
 
     private void createSendForm() {
+        CallProgressWheel.showLoadingDialog(mContext);
         Uri uri = CommonUtils.getInstance().createPdf(lay_screenshot, "Risk_Report_Form");
 
         ShareCompat.IntentBuilder.from(mContext)
@@ -284,6 +286,7 @@ public class RiskReportActivity extends AppCompatActivity {
                 .setStream(uri)
                 .setChooserTitle("Share Form")
                 .startChooser();
+        CallProgressWheel.dismissLoadingDialog();
     }
 
 }

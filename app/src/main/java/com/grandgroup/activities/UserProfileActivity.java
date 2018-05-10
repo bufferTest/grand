@@ -200,73 +200,53 @@ public class UserProfileActivity extends BaseActivity {
     private void updateProfile(final String userFirstName, final String userLastName, final String userEmail, final Bitmap scaled) {
         CallProgressWheel.showLoadingDialog(mContext);
         parseUser = ParseUser.getCurrentUser();
-        parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+       /* parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, com.parse.ParseException e) {
+                if (e == null) {*/
+
+        parseUser.put(getString(R.string.userFirstName), userFirstName);
+        parseUser.put(getString(R.string.userLastName), userLastName);
+        parseUser.put(getString(R.string.userEmail), userEmail);
+        if (scaled != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            scaled.compress(Bitmap.CompressFormat.PNG, 70, stream);
+            byte[] image = stream.toByteArray();
+            ParseFile file = new ParseFile("ile.png", image);
+            parseUser.put(getString(R.string.profilePic), file);
+        }
+        parseUser.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
                 if (e == null) {
-
-                    parseUser.saveInBackground();
-                    object.put(getString(R.string.userFirstName), userFirstName);
-                    object.put(getString(R.string.userLastName), userLastName);
-                    object.put(getString(R.string.userEmail), userEmail);
-
-                    if (scaled != null) {
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        scaled.compress(Bitmap.CompressFormat.PNG, 70, stream);
-                        byte[] image = stream.toByteArray();
-                        ParseFile file = new ParseFile("ile.png", image);
-                        object.put(getString(R.string.profilePic), file);
-                    }
-                    object.saveInBackground(new SaveCallback() {
+                    CallProgressWheel.dismissLoadingDialog();
+                   /* parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                         @Override
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                CallProgressWheel.dismissLoadingDialog();
-                                parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                                    @Override
-                                    public void done(ParseObject object, com.parse.ParseException e) {
-                                        if (e == null) {
-                                            parseUser.saveInBackground();
-                                            object.put(getString(R.string.userFirstName), userFirstName);
-                                            object.put(getString(R.string.userLastName), userLastName);
-                                            object.put(getString(R.string.userEmail), userEmail);
+                        public void done(ParseObject object, com.parse.ParseException e) {
+                            if (e == null) {*/
+                                UserProfileBean userProfileBean = new UserProfileBean();
+                                userProfileBean.setUserFirstName(parseUser.getString(getString(R.string.userFirstName)));
+                                userProfileBean.setUserLastName(parseUser.getString(getString(R.string.userLastName)));
+                                userProfileBean.setUserEmail(parseUser.getString(getString(R.string.userEmail)));
+                                ParseFile postImage = parseUser.getParseFile(getString(R.string.profilePic));
+                                if (postImage != null)
+                                    userProfileBean.setUserProfilePicUrl(postImage.getUrl());
+                                else
+                                    userProfileBean.setUserProfilePicUrl("");
+                                Gson gson = new Gson();
+                                String json = gson.toJson(userProfileObj);
+                                AppPrefrence.init(mContext).putString(AppConstant.USER_PROFILE, json);
 
-                                            if (scaled != null) {
-                                                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                                                scaled.compress(Bitmap.CompressFormat.PNG, 70, stream);
-                                                byte[] image = stream.toByteArray();
-                                                ParseFile file = new ParseFile("image.png", image);
-                                                object.put(getString(R.string.profilePic), file);
-                                            }
-                                            ParseFile postImage = object.getParseFile("profilePic");
-                                            if (postImage != null)
-                                                userProfileObj.setUserProfilePicUrl(postImage.getUrl());
-                                            else
-                                                userProfileObj.setUserProfilePicUrl("");
-
-                                            Gson gson = new Gson();
-                                            String json = gson.toJson(userProfileObj);
-                                            AppPrefrence.init(mContext).putString(AppConstant.USER_PROFILE, json);
-                                        }
-                                    }
-                                });
-
-                                CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG).show();
-                            } else {
-                                CallProgressWheel.dismissLoadingDialog();
-                                Toast.makeText(getApplicationContext(), "Please, Try Again", Toast.LENGTH_LONG).show();
-
-
-                            }
-                        }
-                    });
+                    Toast.makeText(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG).show();
                 } else {
-                    //   BloodDonationHelper.bloodDonationHelper(mContext).dismissLoader();
+                    CallProgressWheel.dismissLoadingDialog();
                     Toast.makeText(getApplicationContext(), "Please, Try Again", Toast.LENGTH_LONG).show();
+
+
                 }
             }
         });
+
     }
 
 }
