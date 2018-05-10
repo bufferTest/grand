@@ -2,7 +2,7 @@ package com.grandgroup.model;
 
 public class IncidentModel {
 
-    String weather_option;
+    String weather_option ="";
     String occourance_date;
     String incedent_option;
     String incedent_location;
@@ -66,6 +66,8 @@ public class IncidentModel {
     String person_workplace_name;
     String event_type;
     String first_add_signature;
+    String objectId ="";
+
 
     public String getOjectId() {
         return objectId;
@@ -75,7 +77,6 @@ public class IncidentModel {
         this.objectId = ojectId;
     }
 
-    String objectId;
 
     public String getWeather_option() {
         return weather_option;

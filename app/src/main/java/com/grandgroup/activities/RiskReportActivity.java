@@ -38,6 +38,7 @@ import static com.grandgroup.utills.AppConstant.CAMERA_REQUEST;
 import static com.grandgroup.utills.AppConstant.GALLERY_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.GALLERY_REQUEST;
 import static com.grandgroup.utills.AppConstant.SAVE_PERMISSIONS_REQUEST;
+import static com.grandgroup.utills.AppConstant.SIGNATRUE_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class RiskReportActivity extends AppCompatActivity {
@@ -113,7 +114,7 @@ public class RiskReportActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.btn_back, R.id.tv_event_date, R.id.lay_photo, R.id.tv_select_likelihood, R.id.tv_select_consq,
-            R.id.et_control_eff, R.id.btn_email, R.id.btn_save})
+            R.id.et_control_eff, R.id.btn_email, R.id.btn_save, R.id.iv_signature})
     public void onclick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -171,6 +172,12 @@ public class RiskReportActivity extends AppCompatActivity {
                     Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
+            case R.id.iv_signature:
+            startActivityForResult(new Intent(mContext,SignatureActivity.class),1);
+                mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
+            break;
+
         }
 
     }
@@ -236,7 +243,13 @@ public class RiskReportActivity extends AppCompatActivity {
                     }
                 }
             }
+
+            else if(requestCode == SIGNATRUE_REQUEST){
+                Bitmap bitmap =  data.getParcelableExtra("signBitmap");
+                ivSignature.setImageBitmap(bitmap);
+            }
         }
+
     }
 
     @Override

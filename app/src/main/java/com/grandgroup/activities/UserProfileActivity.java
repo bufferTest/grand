@@ -200,11 +200,6 @@ public class UserProfileActivity extends BaseActivity {
     private void updateProfile(final String userFirstName, final String userLastName, final String userEmail, final Bitmap scaled) {
         CallProgressWheel.showLoadingDialog(mContext);
         parseUser = ParseUser.getCurrentUser();
-       /* parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, com.parse.ParseException e) {
-                if (e == null) {*/
-
         parseUser.put(getString(R.string.userFirstName), userFirstName);
         parseUser.put(getString(R.string.userLastName), userLastName);
         parseUser.put(getString(R.string.userEmail), userEmail);
@@ -220,14 +215,10 @@ public class UserProfileActivity extends BaseActivity {
             public void done(ParseException e) {
                 if (e == null) {
                     CallProgressWheel.dismissLoadingDialog();
-                   /* parseUser.getParseObject("User").fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject object, com.parse.ParseException e) {
-                            if (e == null) {*/
                                 UserProfileBean userProfileBean = new UserProfileBean();
-                                userProfileBean.setUserFirstName(parseUser.getString(getString(R.string.userFirstName)));
-                                userProfileBean.setUserLastName(parseUser.getString(getString(R.string.userLastName)));
-                                userProfileBean.setUserEmail(parseUser.getString(getString(R.string.userEmail)));
+                                userProfileBean.setUserFirstName(userFirstName);
+                                userProfileBean.setUserLastName(userLastName);
+                                userProfileBean.setUserEmail(userEmail);
                                 ParseFile postImage = parseUser.getParseFile(getString(R.string.profilePic));
                                 if (postImage != null)
                                     userProfileBean.setUserProfilePicUrl(postImage.getUrl());

@@ -14,4 +14,6 @@ public class AppConstant {
     public static final int SAVE_PERMISSIONS_REQUEST = 126;
     public static final int CAMERA_REQUEST = 120;
     public static final int GALLERY_REQUEST = 121;
+    public static final int SIGNATRUE_REQUEST = 101;
+
 }

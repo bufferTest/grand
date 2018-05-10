@@ -1,5 +1,7 @@
 package com.grandgroup.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -42,16 +44,20 @@ public class SignatureActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_done:
                 Bitmap signBitmap;
+                signature_pad.setDrawingCacheEnabled(true);
                 if (signature_pad.getVisibility() == View.VISIBLE)
                     if (signature_pad.getGesture() != null) {
                         signBitmap = Bitmap.createBitmap(signature_pad.getDrawingCache());
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
                         signBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-
                         byte[] image = out.toByteArray();
                         ParseFile file = new ParseFile("file.png", image);
 //                        Uri signature = CommonUtils.getInstance().getImageUri(mContext,signBitmap);
 
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("signBitmap",signBitmap);
+                        setResult(Activity.RESULT_OK,returnIntent);
+                        finish();
                         break;
                     }
         }

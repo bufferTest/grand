@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.grandgroup.R;
 import com.grandgroup.adapter.ReportAdapter;
 import com.grandgroup.model.IncidentModel;
+import com.grandgroup.model.RiskReportModel;
 import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.GrandGroupHelper;
 import com.parse.FindCallback;
@@ -33,7 +34,8 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
     private AppCompatActivity mContext;
     // Spinner Drop down elements
     List categories = new ArrayList();
-    ArrayList incidentReportList = new ArrayList();
+    ArrayList incidentReportList ;
+    ArrayList riskReportList;
     String selectedCat = "Incedent Report";
 
     @BindView(R.id.tv_title)
@@ -111,18 +113,30 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                 @Override
                 public void done(List<ParseObject> reports, ParseException e) {
                     if (e == null) {
+                        riskReportList = new ArrayList();
+                        incidentReportList = new ArrayList();
                         CallProgressWheel.dismissLoadingDialog();
                         if (reports.size() > 0) {
-                            for (int i = 0; i < reports.size(); i++) {
-                                IncidentModel incidentModel = new IncidentModel();
-                                incidentModel.setOjectId(reports.get(i).getString("objectId"));
-                                incidentReportList.add(incidentModel);
+                            if (selectedCat.equalsIgnoreCase("Incedent Report")) {
+                                for (int i = 0; i < reports.size(); i++) {
+                                    IncidentModel incidentModel = new IncidentModel();
+                                    incidentModel.setOjectId(reports.get(i).getObjectId());
+                                    incidentReportList.add(incidentModel);
+                                }
+                                setAdapter(0);
                             }
-                        }
-                           setAdapter();
-                    } else {
-                        CallProgressWheel.dismissLoadingDialog();
 
+                        else if (selectedCat.equalsIgnoreCase("Risk Report")) {
+                            for (int i = 0; i < reports.size(); i++) {
+                                RiskReportModel riskReportModel = new RiskReportModel();
+                                riskReportModel.setObjectId(reports.get(i).getObjectId());
+                                riskReportList.add(riskReportModel);
+                            }
+                            setAdapter(1);
+                        }
+                    } else {
+                            CallProgressWheel.dismissLoadingDialog();
+                        }
                     }
                 }
 
@@ -132,19 +146,35 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
         }
     }
 
-    private void setAdapter() {
+    private void setAdapter(int userSelection) {
         try {
-            if (incidentReportList.size() > 0) {
-                ReportAdapter adapter = new ReportAdapter(mContext, incidentReportList);
-                rvReports.setHasFixedSize(true);
-                rvReports.setAdapter(adapter);
+            if(userSelection ==0) {
+                if (incidentReportList.size() > 0) {
+                    LinearLayoutManager llm = new LinearLayoutManager(this);
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    rvReports.setLayoutManager(llm);
+                    ReportAdapter adapter = new ReportAdapter(mContext, userSelection,incidentReportList);
+                    rvReports.setHasFixedSize(true);
+                    rvReports.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                } else {
+                    rvReports.setVisibility(View.VISIBLE);
+                    rvReports.setVisibility(View.GONE);
+                }
+            }
+            else if(userSelection ==1){
                 LinearLayoutManager llm = new LinearLayoutManager(this);
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
                 rvReports.setLayoutManager(llm);
+                ReportAdapter adapter = new ReportAdapter(mContext, riskReportList,userSelection);
+                rvReports.setHasFixedSize(true);
+                rvReports.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             } else {
                 rvReports.setVisibility(View.VISIBLE);
                 rvReports.setVisibility(View.GONE);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,6 +184,11 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         selectedCat = parent.getItemAtPosition(position).toString();
+        if (selectedCat.equalsIgnoreCase("Incedent Report")) {
+            getReports("IncidentReport");
+        } else if (selectedCat.equalsIgnoreCase("Risk Report")) {
+            getReports("RiskReport");
+        }
     }
 
     @Override
