@@ -1,5 +1,7 @@
 package com.grandgroup.model;
 
+import java.util.Date;
+
 public class ShiftDetailModel {
     private String shift_end_date_str = "";
     private String shift_user = "";
@@ -7,6 +9,25 @@ public class ShiftDetailModel {
     private String shift_details = "";
     private String shift_name = "";
     private String shift_start_date_str = "";
+    private Date shift_start_date ;
+    private Date shift_end_date;
+
+    public void setShift_start_date(Date shift_start_date) {
+        this.shift_start_date = shift_start_date;
+    }
+
+    public void setShift_end_date(Date shift_end_date) {
+        this.shift_end_date = shift_end_date;
+    }
+
+    public Date getShift_start_date() {
+        return shift_start_date;
+    }
+
+    public Date getShift_end_date() {
+        return shift_end_date;
+    }
+
 
     public String getShift_end_date_str() {
         return shift_end_date_str;

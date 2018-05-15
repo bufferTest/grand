@@ -219,7 +219,6 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                             incidentModel.setEvent_type(incidentReportObject.get("event_type").toString());
                             incidentModel.setCease_date(incidentReportObject.get("cease_date").toString());
 
-
                            /*
 
                             String photo_option;
@@ -247,9 +246,10 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                     @Override
                     public void onClick(int position) {
                         ParseObject riskReportObject =  reports.get(position);
-                        RiskReportModel riskReportModel = new RiskReportModel();
 
-                      //  riskReportObject.set
+
+
+
 
 
                         Intent intent = new Intent(mContext, RiskReportActivity.class);

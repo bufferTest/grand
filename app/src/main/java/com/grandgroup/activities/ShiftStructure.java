@@ -237,6 +237,7 @@ public class ShiftStructure extends BaseActivity {
                                 shiftDetailModel.setShift_start_date_str(p.getString(getString(R.string.shiftStartDate)));
                                 shiftDetailModel.setShift_name(p.getString(getString(R.string.shiftName)));
                                 shiftsList.add(shiftDetailModel);
+
                         }
 
                             setAdapter();
