@@ -25,6 +25,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -75,6 +76,7 @@ public class ShiftStructure extends BaseActivity {
         month = cal.get(Calendar.MONTH);
         setUpWeekNames();
         setupcalender();
+        fetchShifts();
     }
 
     @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})
@@ -187,8 +189,24 @@ public class ShiftStructure extends BaseActivity {
             @Override
             public void onDayClick(String position) {
                 Log.e("day", position + cal.get(Calendar.MONTH) + cal.get(Calendar.YEAR));
-           //     Mar 17, 2018 12:36 PM
-            //    fetchShifts()
+                String dayOfMonth = "", monthOfYear = "", selectedDate, formattedDate = "";
+
+               /* monthOfYear = (month+1 < 10) ? "0"+ month+1 : ""+month+1;
+                dayOfMonth = (date < 10) ? "0"+ date : ""+date;
+                selectedDate = monthOfYear +" "+ dayOfMonth+", "+ year;
+                Log.e("day", selectedDate);
+                DateFormat originalFormat = new SimpleDateFormat("MM dd, yyyy", Locale.ENGLISH);
+                DateFormat targetFormat = new SimpleDateFormat("MMMM dd, yyyy");
+                try {
+                    Date date1 = originalFormat.parse(selectedDate);
+                    formattedDate = targetFormat.format(date1);
+                    Log.e("day1", formattedDate);
+
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+                tvEventDate.setText(formattedDate);*/
+
             }
         });
         calenderRecyclerView.setAdapter(calenderAdpter);
@@ -197,31 +215,35 @@ public class ShiftStructure extends BaseActivity {
 
 
 
-    public void fetchShifts(String shiftStartDate) {
+    public void fetchShifts() {
         if (GrandGroupHelper.grandGroupHelper(mContext).CheckIsConnectedToInternet()) {
             CallProgressWheel.showLoadingDialog(mContext);
             ParseUser user = ParseUser.getCurrentUser();
-            ParseQuery<ParseObject> query = ParseQuery.getQuery(shiftStartDate);
-            query.whereEqualTo("shift_start_date", shiftStartDate);
+            ParseQuery<ParseObject> query = new ParseQuery("Shifts");
+            query.setLimit(100000);
+            query.whereEqualTo("shift_user_id", user.getObjectId());
             query.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> userList, ParseException e) {
                     if (e == null) {
+                        CallProgressWheel.dismissLoadingDialog();
                         if (userList.size() > 0) {
                             for (int i = 0; i < userList.size(); i++) {
                                 ShiftDetailModel shiftDetailModel = new ShiftDetailModel();
                                 ParseObject p = userList.get(i);
                                 shiftDetailModel.setShift_assigned_by_id(p.getString(getString(R.string.shiftAssign)));
-                                shiftDetailModel.setShift_details(p.getString(getString(R.string.shiftDetails)));
+                                shiftDetailModel.setShift_details(p.getString(getString(R.string.shiftDetail)));
                                 shiftDetailModel.setShift_end_date_str(p.getString(getString(R.string.shiftEndDateStr)));
                                 shiftDetailModel.setShift_start_date_str(p.getString(getString(R.string.shiftStartDate)));
                                 shiftDetailModel.setShift_name(p.getString(getString(R.string.shiftName)));
                                 shiftsList.add(shiftDetailModel);
                         }
+
                             setAdapter();
                         }
 
                     } else {
+                        CallProgressWheel.dismissLoadingDialog();
                     }
                 }
 

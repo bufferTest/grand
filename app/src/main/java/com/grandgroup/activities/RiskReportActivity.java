@@ -28,6 +28,9 @@ import com.grandgroup.utills.CommonUtils;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
 import com.grandgroup.views.CustomTimeDialog;
+import com.parse.ParseObject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +45,7 @@ import static com.grandgroup.utills.AppConstant.SIGNATRUE_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class RiskReportActivity extends AppCompatActivity {
+    private ParseObject riskReportObject;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_event_date)
@@ -174,8 +178,8 @@ public class RiskReportActivity extends AppCompatActivity {
                 break;
 
             case R.id.iv_signature:
-            startActivityForResult(new Intent(mContext,SignatureActivity.class),1);
-                mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
+            startActivityForResult(new Intent(mContext,SignatureActivity.class),SIGNATRUE_REQUEST);
+                mContext.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
             break;
 
         }
@@ -186,6 +190,10 @@ public class RiskReportActivity extends AppCompatActivity {
         mContext = RiskReportActivity.this;
         ButterKnife.bind(mContext);
         tvTitle.setText("Risk / Hazard Report");
+
+        riskReportObject = (ParseObject)getIntent().getSerializableExtra("riskReportObject");
+
+
     }
 
     private void getData() {

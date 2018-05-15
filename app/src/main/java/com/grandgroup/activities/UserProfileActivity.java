@@ -225,7 +225,7 @@ public class UserProfileActivity extends BaseActivity {
                                 else
                                     userProfileBean.setUserProfilePicUrl("");
                                 Gson gson = new Gson();
-                                String json = gson.toJson(userProfileObj);
+                                String json = gson.toJson(userProfileBean);
                                 AppPrefrence.init(mContext).putString(AppConstant.USER_PROFILE, json);
 
                     Toast.makeText(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG).show();

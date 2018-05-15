@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.grandgroup.R;
 import com.grandgroup.adapter.ReportAdapter;
@@ -50,8 +51,6 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
     @BindView(R.id.rv_reports)
     RecyclerView rvReports;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +88,7 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                 finish();
                 mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
                 break;
+
             case R.id.btn_add:
                 if (selectedCat.equalsIgnoreCase("Incedent Report")) {
                     Intent intent = new Intent(mContext, IncidentReportsActivity.class);
@@ -106,9 +106,7 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
     private void getReports(String reportType) {
         if (GrandGroupHelper.grandGroupHelper(mContext).CheckIsConnectedToInternet()) {
             CallProgressWheel.showLoadingDialog(mContext);
-//            ParseUser parseUser = ParseUser.getCurrentUser();
             ParseQuery parseQuery = new ParseQuery(reportType);
-       //     parseQuery.whereEqualTo("user", parseUser.getObjectId());
             parseQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
                 public void done(List<ParseObject> reports, ParseException e) {
@@ -123,7 +121,7 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                                     incidentModel.setOjectId(reports.get(i).getObjectId());
                                     incidentReportList.add(incidentModel);
                                 }
-                                setAdapter(0);
+                                setAdapter(0, reports);
                             }
 
                         else if (selectedCat.equalsIgnoreCase("Risk Report")) {
@@ -132,7 +130,7 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                                 riskReportModel.setObjectId(reports.get(i).getObjectId());
                                 riskReportList.add(riskReportModel);
                             }
-                            setAdapter(1);
+                            setAdapter(1, reports);
                         }
                     } else {
                             CallProgressWheel.dismissLoadingDialog();
@@ -146,14 +144,23 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
         }
     }
 
-    private void setAdapter(int userSelection) {
+    private void setAdapter(int userSelection, final List<ParseObject> reports) {
         try {
             if(userSelection ==0) {
                 if (incidentReportList.size() > 0) {
                     LinearLayoutManager llm = new LinearLayoutManager(this);
                     llm.setOrientation(LinearLayoutManager.VERTICAL);
                     rvReports.setLayoutManager(llm);
-                    ReportAdapter adapter = new ReportAdapter(mContext, userSelection,incidentReportList);
+                    ReportAdapter adapter = new ReportAdapter(mContext, userSelection,incidentReportList,  new ReportAdapter.ItemClickListener() {
+                        @Override
+                        public void onClick(int position) {
+                            ParseObject riskReportObject =  reports.get(position);
+                            Intent intent = new Intent(mContext, RiskReportActivity.class);
+                            intent.putExtra("incidentReportObject", riskReportObject);
+                            startActivity(intent);
+                            Toast.makeText(mContext,"Nikhil Clicked", Toast.LENGTH_LONG).show();
+                        }
+                    });
                     rvReports.setHasFixedSize(true);
                     rvReports.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -166,7 +173,17 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                 LinearLayoutManager llm = new LinearLayoutManager(this);
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
                 rvReports.setLayoutManager(llm);
-                ReportAdapter adapter = new ReportAdapter(mContext, riskReportList,userSelection);
+                ReportAdapter adapter = new ReportAdapter(mContext, riskReportList,userSelection,  new ReportAdapter.ItemClickListener() {
+                    @Override
+                    public void onClick(int position) {
+                        ParseObject riskReportObject =  reports.get(position);
+                        Intent intent = new Intent(mContext, RiskReportActivity.class);
+                        intent.putExtra("riskReportObject", riskReportObject);
+                        startActivity(intent);
+                        Toast.makeText(mContext,"Nikhil Clicked", Toast.LENGTH_LONG).show();
+                    }
+                });
+
                 rvReports.setHasFixedSize(true);
                 rvReports.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

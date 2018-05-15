@@ -69,7 +69,7 @@ public class TaskManagerActivity extends BaseActivity {
         btnAdd.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward})
+    @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward,R.id.btn_add})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:

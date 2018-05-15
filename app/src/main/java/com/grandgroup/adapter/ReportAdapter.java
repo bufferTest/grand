@@ -24,15 +24,25 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.CustomHold
     private Context context;
     private int reportSelection;
 
-    public ReportAdapter(Context context,int reportSelection, ArrayList<IncidentModel> incidentList) {
+    ReportAdapter.ItemClickListener itemClickListener;
+
+    public interface ItemClickListener {
+        void onClick(int position);
+    }
+
+    public ReportAdapter(Context context,int reportSelection, ArrayList<IncidentModel> incidentList, ReportAdapter.ItemClickListener itemClickListener) {
         this.incidentList = incidentList;
         this.context = context;
         this.reportSelection = reportSelection;
+        this.itemClickListener = itemClickListener;
+
     }
-    public ReportAdapter(Context context, ArrayList<RiskReportModel> riskList,int reportSelection) {
+    public ReportAdapter(Context context, ArrayList<RiskReportModel> riskList,int reportSelection, ReportAdapter.ItemClickListener itemClickListener) {
         this.riskList = riskList;
         this.context = context;
         this.reportSelection = reportSelection;
+        this.itemClickListener = itemClickListener;
+
     }
 
     @NonNull
@@ -61,7 +71,7 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.CustomHold
         return listSize;
     }
 
-    public class CustomHolder extends RecyclerView.ViewHolder {
+    public class CustomHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         @BindView(R.id.tv_text)
         TextView tvText;
         @BindView(R.id.tv_time)
@@ -71,5 +81,11 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.CustomHold
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+}
+
 }

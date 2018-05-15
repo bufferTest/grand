@@ -14,7 +14,7 @@
     <string name="shiftEndDateStr">shift_end_date_str</string>
     <string name="shiftUser">shift_user</string>
     <string name="shiftAssign">shift_assigned_by_id</string>
-    <string name="shiftDetails">shift_details</string>
+    <string name="shiftDetail">shift_detail</string>
     <string name="shiftName">shift_name </string>
     <string name="shiftStartDate">shift_start_date_str</string>
 
