@@ -1,7 +1,8 @@
 package com.grandgroup.model;
 
-public class IncidentModel {
+import java.io.Serializable;
 
+public class IncidentModel implements Serializable{
     String weather_option ="";
     String occourance_date;
     String incedent_option;
@@ -67,6 +68,263 @@ public class IncidentModel {
     String event_type;
     String first_add_signature;
     String objectId ="";
+    public void setWeather_option(String weather_option) {
+        this.weather_option = weather_option;
+    }
+
+    public void setOccourance_date(String occourance_date) {
+        this.occourance_date = occourance_date;
+    }
+
+    public void setIncedent_option(String incedent_option) {
+        this.incedent_option = incedent_option;
+    }
+
+    public void setIncedent_location(String incedent_location) {
+        this.incedent_location = incedent_location;
+    }
+
+    public void setPerson_post_code(String person_post_code) {
+        this.person_post_code = person_post_code;
+    }
+
+    public void setInjury_type(String injury_type) {
+        this.injury_type = injury_type;
+    }
+
+    public void setPhoto_option(String photo_option) {
+        this.photo_option = photo_option;
+    }
+
+    public void setThird_party_detail(String third_party_detail) {
+        this.third_party_detail = third_party_detail;
+    }
+
+    public void setCease_option(String cease_option) {
+        this.cease_option = cease_option;
+    }
+
+    public void setMedical_center(String medical_center) {
+        this.medical_center = medical_center;
+    }
+
+    public void setWeather_conditions(String weather_conditions) {
+        this.weather_conditions = weather_conditions;
+    }
+
+    public void setBreakdown_agency(String breakdown_agency) {
+        this.breakdown_agency = breakdown_agency;
+    }
+
+    public void setPerson_sur_name(String person_sur_name) {
+        this.person_sur_name = person_sur_name;
+    }
+
+    public void setPerson_first_name(String person_first_name) {
+        this.person_first_name = person_first_name;
+    }
+
+    public void setSame_occourance(String same_occourance) {
+        this.same_occourance = same_occourance;
+    }
+
+    public void setThird_party_option(String third_party_option) {
+        this.third_party_option = third_party_option;
+    }
+
+    public void setFirst_aid_option(String first_aid_option) {
+        this.first_aid_option = first_aid_option;
+    }
+
+    public void setPerson_state(String person_state) {
+        this.person_state = person_state;
+    }
+
+    public void setPerson_gender_option(String person_gender_option) {
+        this.person_gender_option = person_gender_option;
+    }
+
+    public void setEyewear_type(String eyewear_type) {
+        this.eyewear_type = eyewear_type;
+    }
+
+    public void setWitness_statement(String witness_statement) {
+        this.witness_statement = witness_statement;
+    }
+
+    public void setPerson_drug_option(String person_drug_option) {
+        this.person_drug_option = person_drug_option;
+    }
+
+    public void setOther_mechanism(String other_mechanism) {
+        this.other_mechanism = other_mechanism;
+    }
+
+    public void setPerson_address(String person_address) {
+        this.person_address = person_address;
+    }
+
+    public void setDamage_type(String damage_type) {
+        this.damage_type = damage_type;
+    }
+
+    public void setDate_attended(String date_attended) {
+        this.date_attended = date_attended;
+    }
+
+    public void setAdditional_comments(String additional_comments) {
+        this.additional_comments = additional_comments;
+    }
+
+    public void setFootwaer_type(String footwaer_type) {
+        this.footwaer_type = footwaer_type;
+    }
+
+    public void setIncident_report_person_signature(String incident_report_person_signature) {
+        this.incident_report_person_signature = incident_report_person_signature;
+    }
+
+    public void setIncident_report_date(String incident_report_date) {
+        this.incident_report_date = incident_report_date;
+    }
+
+    public void setVehicle_damage_detail(String vehicle_damage_detail) {
+        this.vehicle_damage_detail = vehicle_damage_detail;
+    }
+
+    public void setEffected_person_detail(String effected_person_detail) {
+        this.effected_person_detail = effected_person_detail;
+    }
+
+    public void setAttendee_name(String attendee_name) {
+        this.attendee_name = attendee_name;
+    }
+
+    public void setInjury_machanism(String injury_machanism) {
+        this.injury_machanism = injury_machanism;
+    }
+
+    public void setCctv_option(String cctv_option) {
+        this.cctv_option = cctv_option;
+    }
+
+    public void setOther_breakdown_agency(String other_breakdown_agency) {
+        this.other_breakdown_agency = other_breakdown_agency;
+    }
+
+    public void setBody_location(String body_location) {
+        this.body_location = body_location;
+    }
+
+    public void setCarring_type(String carring_type) {
+        this.carring_type = carring_type;
+    }
+
+    public void setIncident_report_person(String incident_report_person) {
+        this.incident_report_person = incident_report_person;
+    }
+
+    public void setWarning_sign_option(String warning_sign_option) {
+        this.warning_sign_option = warning_sign_option;
+    }
+
+    public void setAffected_person_option(String affected_person_option) {
+        this.affected_person_option = affected_person_option;
+    }
+
+    public void setPerson_occupation(String person_occupation) {
+        this.person_occupation = person_occupation;
+    }
+
+    public void setInjury_mark(String injury_mark) {
+        this.injury_mark = injury_mark;
+    }
+
+    public void setAmbulance_attend_option(String ambulance_attend_option) {
+        this.ambulance_attend_option = ambulance_attend_option;
+    }
+
+    public void setInjury_illness(String injury_illness) {
+        this.injury_illness = injury_illness;
+    }
+
+    public void setPerson_home_phone(String person_home_phone) {
+        this.person_home_phone = person_home_phone;
+    }
+
+    public void setInjury_illness_detail(String injury_illness_detail) {
+        this.injury_illness_detail = injury_illness_detail;
+    }
+
+    public void setWhat_you_see(String what_you_see) {
+        this.what_you_see = what_you_see;
+    }
+
+    public void setPerson_birth_date(String person_birth_date) {
+        this.person_birth_date = person_birth_date;
+    }
+
+    public void setWet_weather_option(String wet_weather_option) {
+        this.wet_weather_option = wet_weather_option;
+    }
+
+    public void setAttended_person_option(String attended_person_option) {
+        this.attended_person_option = attended_person_option;
+    }
+
+    public void setEvent_desc_desc(String event_desc_desc) {
+        this.event_desc_desc = event_desc_desc;
+    }
+
+    public void setReported_date(String reported_date) {
+        this.reported_date = reported_date;
+    }
+
+    public void setPerson_mobile_phone(String person_mobile_phone) {
+        this.person_mobile_phone = person_mobile_phone;
+    }
+
+    public void setProperty_damage_option(String property_damage_option) {
+        this.property_damage_option = property_damage_option;
+    }
+
+    public void setAmbulance_who(String ambulance_who) {
+        this.ambulance_who = ambulance_who;
+    }
+
+    public void setCease_date(String cease_date) {
+        this.cease_date = cease_date;
+    }
+
+    public void setFirst_aid_name(String first_aid_name) {
+        this.first_aid_name = first_aid_name;
+    }
+
+    public void setPerson_phone_address(String person_phone_address) {
+        this.person_phone_address = person_phone_address;
+    }
+
+    public void setAction_taken(String action_taken) {
+        this.action_taken = action_taken;
+    }
+
+    public void setIncident_desc(String incident_desc) {
+        this.incident_desc = incident_desc;
+    }
+
+    public void setPerson_workplace_name(String person_workplace_name) {
+        this.person_workplace_name = person_workplace_name;
+    }
+
+    public void setEvent_type(String event_type) {
+        this.event_type = event_type;
+    }
+
+    public void setFirst_add_signature(String first_add_signature) {
+        this.first_add_signature = first_add_signature;
+    }
+
+
 
 
     public String getOjectId() {

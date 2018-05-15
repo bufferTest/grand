@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.grandgroup.R;
+import com.grandgroup.model.IncidentModel;
 import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
 import com.grandgroup.utills.PermissionUtils;
@@ -45,7 +46,7 @@ import static com.grandgroup.utills.AppConstant.SIGNATRUE_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class RiskReportActivity extends AppCompatActivity {
-    private ParseObject riskReportObject;
+    private IncidentModel incidentReportObject ;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_event_date)
@@ -189,10 +190,9 @@ public class RiskReportActivity extends AppCompatActivity {
     private void setInitialData() {
         mContext = RiskReportActivity.this;
         ButterKnife.bind(mContext);
-        tvTitle.setText("Risk / Hazard Report");
-
-        riskReportObject = (ParseObject)getIntent().getSerializableExtra("riskReportObject");
-
+        tvTitle.setText("Incident Report");
+        incidentReportObject = (IncidentModel) getIntent().getSerializableExtra("incidentModel");
+        tvReportDesc.setText(incidentReportObject.getWeather_option());
 
     }
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.grandgroup.R;
+import com.grandgroup.model.IncidentModel;
 import com.grandgroup.utills.AppConstant;
 import com.grandgroup.utills.AppPrefrence;
 import com.grandgroup.utills.CallProgressWheel;
@@ -48,7 +49,7 @@ import static com.grandgroup.utills.AppConstant.SAVE_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class IncidentReportsActivity extends BaseActivity {
-    private ParseObject incidentReportObject;
+    private IncidentModel incidentReportObject;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.btn_back)
@@ -412,7 +413,8 @@ public class IncidentReportsActivity extends BaseActivity {
         mContext = IncidentReportsActivity.this;
         ButterKnife.bind(mContext);
         tvTitle.setText("Incident Reports");
-        incidentReportObject = (ParseObject)getIntent().getSerializableExtra("incidentReportObject");
+        incidentReportObject = (IncidentModel) getIntent().getSerializableExtra("incidentModel");
+        etAffected.setText(incidentReportObject.getEffected_person_detail());
 
     }
 

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.grandgroup.R;
 import com.grandgroup.utills.AppConstant;
 import com.grandgroup.utills.AppPrefrence;
+import com.grandgroup.utills.CallProgressWheel;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -74,10 +75,12 @@ public class DashBoardActivity extends AppCompatActivity {
                 alertDialog.setMessage("Are you sure you want Logout?");
                 alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, int which) {
+                        CallProgressWheel.showLoadingDialog(mContext);
                         ParseUser.logOutInBackground(new LogOutCallback() {
                             @Override
                             public void done(ParseException e) {
                                 if (e == null) {
+                                    CallProgressWheel.dismissLoadingDialog();
                                     AppPrefrence.init(mContext).putBoolean(AppConstant.IS_LOGGED_IN, false);
                                     dialog.cancel();
                                     Intent intent = new Intent(mContext, LoginActivity.class);
@@ -85,6 +88,7 @@ public class DashBoardActivity extends AppCompatActivity {
                                     mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
                                     finish();
                                 } else {
+                                    CallProgressWheel.dismissLoadingDialog();
                                     Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
                                 }
                             }
