@@ -92,7 +92,6 @@ public class UserProfileActivity extends BaseActivity {
                                 .dontAnimate()
                                 .centerCrop()
                                 .dontTransform()).into(ivUserPic);
-
         }
     }
 
@@ -227,17 +226,12 @@ public class UserProfileActivity extends BaseActivity {
                                 Gson gson = new Gson();
                                 String json = gson.toJson(userProfileBean);
                                 AppPrefrence.init(mContext).putString(AppConstant.USER_PROFILE, json);
-
                     Toast.makeText(getApplicationContext(), "Successfully Updated", Toast.LENGTH_LONG).show();
                 } else {
                     CallProgressWheel.dismissLoadingDialog();
                     Toast.makeText(getApplicationContext(), "Please, Try Again", Toast.LENGTH_LONG).show();
-
-
                 }
             }
         });
-
     }
-
 }

@@ -1,7 +1,6 @@
 package com.grandgroup.activities;
 
 import android.Manifest;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,38 +17,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.grandgroup.R;
 import com.grandgroup.model.IncidentModel;
-import com.grandgroup.utills.AppConstant;
-import com.grandgroup.utills.AppPrefrence;
 import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
-import com.grandgroup.utills.GrandGroupHelper;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
 import com.grandgroup.views.CustomTimeDialog;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.grandgroup.utills.AppConstant.CAMERA_PERMISSIONS_REQUEST;
-import static com.grandgroup.utills.AppConstant.GALLERY_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.SAVE_PERMISSIONS_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class IncidentReportsActivity extends BaseActivity {
-    private IncidentModel incidentReportObject;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.btn_back)
@@ -400,6 +390,7 @@ public class IncidentReportsActivity extends BaseActivity {
     EditText etNotes;
     @BindView(R.id.lay_screenshot)
     ConstraintLayout layScreenshot;
+    private IncidentModel incidentReportObject;
     private AppCompatActivity mContext;
 
     @Override
@@ -415,11 +406,84 @@ public class IncidentReportsActivity extends BaseActivity {
         tvTitle.setText("Incident Reports");
         incidentReportObject = (IncidentModel) getIntent().getSerializableExtra("incidentModel");
         etAffected.setText(incidentReportObject.getEffected_person_detail());
+        tvOccurenceValue.setText(incidentReportObject.getOccourance_date());
+        setRadioButton(rgCeased,incidentReportObject.getCease_option());
+        tvCeasedTimeValue.setText(incidentReportObject.getCease_date());
+        tvReportTimeValue.setText(incidentReportObject.getReported_date());
+        setRadioButton(rgOccurence,incidentReportObject.getOccourance_date());
+        etFirstname.setText(incidentReportObject.getPerson_first_name());
+        etSurname.setText(incidentReportObject.getPerson_sur_name());
+        setRadioButton(rgGender,incidentReportObject.getPerson_gender_option());
+        etAddress.setText(incidentReportObject.getPerson_address());
+        etState.setText(incidentReportObject.getPerson_state());
+        etPostcode.setText(incidentReportObject.getPerson_post_code());
+        etHomePhone.setText(incidentReportObject.getPerson_home_phone());
+        etMobileNo.setText(incidentReportObject.getPerson_mobile_phone());
+        etBirthday.setText(incidentReportObject.getPerson_birth_date());
+        etOccupation.setText(incidentReportObject.getPerson_occupation());
+        etWorkplace.setText(incidentReportObject.getPerson_workplace_name());
+//        etAddres.setText(incidentReportObject.getOc);
+        etIncident.setText(incidentReportObject.getIncedent_location());
+        setRadioButton(rgEventClass,incidentReportObject.getEvent_type());
+//        etBrief.setText(incidentReportObject.);
+        etDescription.setText(incidentReportObject.getIncident_desc());
+        etAction.setText(incidentReportObject.getAction_taken());
+        etInjury.setText(incidentReportObject.getInjury_type());
+        etIllness.setText(incidentReportObject.getInjury_illness());
+        etBodily.setText(incidentReportObject.getBody_location());
+        etMark.setText(incidentReportObject.getInjury_mark());
+        etMechanism.setText(incidentReportObject.getOther_mechanism());
+        etOthers.setText(incidentReportObject.getOther_mechanism());
+//        etObserve.setText(incidentReportObject.getob);
+        setRadioButton(rgThirdParty,incidentReportObject.getThird_party_option());
+        etThirdReport.setText(incidentReportObject.getThird_party_detail());
+        setRadioButton(rgPropDamage,incidentReportObject.getProperty_damage_option());
+//        etDamageAdv.setText(incidentReportObject.damage);
+        etDamageVeh.setText(incidentReportObject.getVehicle_damage_detail());
+        setRadioButton(rgAttendAffe,incidentReportObject.getAttended_person_option());
+        etName.setText(incidentReportObject.getAttendee_name());
+        setRadioButton(rgFirstAid,incidentReportObject.getFirst_aid_option());
+        etAidName.setText(incidentReportObject.getFirst_aid_name());
+//        ivImage.setImageBitmap(i);
+        etInjuryDetail.setText(incidentReportObject.getInjury_illness_detail());
+        etMedCenter.setText(incidentReportObject.getMedical_center());
+        etDateAtten.setText(incidentReportObject.getDate_attended());
+        setRadioButton(rgAmbulance,incidentReportObject.getAmbulance_attend_option());
+        etAmbReq.setText(incidentReportObject.getAmbulance_who());
+//        etAmbPerName.setText(incidentReportObject.ambu);
+//        etAmbDate.setText(incidentReportObject.getAm);
+        setRadioButton(rgWeather,incidentReportObject.getWeather_option());
+        etWeatherCond.setText(incidentReportObject.getWeather_conditions());
+        setRadioButton(rgDrugAffect,incidentReportObject.getPerson_drug_option());
+        etFootwear.setText(incidentReportObject.getFootwaer_type());
+        etEyewear.setText(incidentReportObject.getEyewear_type());
+        etCarrying.setText(incidentReportObject.getCarring_type());
+        setRadioButton(rgCctv,incidentReportObject.getCctv_option());
+        setRadioButton(rgPhotos,incidentReportObject.getPhoto_option());
+//        setRadioButton(rgWandReport,incidentReportObject.getW);
+        setRadioButton(rgWetWeather,incidentReportObject.getWet_weather_option());
+        etComment.setText(incidentReportObject.getAdditional_comments());
+//        setRadioButton(rgIncidentSpecs,incidentReportObject.inci);
+//        etNotes.setText(incidentReportObject.ge);
+    }
 
+
+    private void setRadioButton(RadioGroup radiogroup, String value) {
+        int count = radiogroup.getChildCount();
+
+        for (int i = 0; i < count; i++) {
+            RadioButton radioButton = (RadioButton) radiogroup.getChildAt(i);
+            String btn_text = radioButton.getText().toString();
+            if (btn_text.equalsIgnoreCase(value)){
+                radioButton.setChecked(true);
+                break;
+            }
+
+        }
     }
 
     @OnClick({R.id.btn_back, R.id.btn_add, R.id.rg_type, R.id.rg_ceased, R.id.rg_occurence, R.id.rg_gender, R.id.rg_third_party, R.id.rg_prop_damage, R.id.rg_attend_affe, R.id.rg_first_aid, R.id.lay_signature, R.id.lay_amb_per_sign, R.id.rg_cctv, R.id.rg_wand_report, R.id.rg_wet_weather, R.id.rg_incident_specs, R.id.lay_screenshot,
-            R.id.tv_occurence_value,R.id.tv_ceased_time_value,R.id.tv_report_time_value,R.id.et_birthday,R.id.et_date_atten, R.id.btn_email, R.id.btn_save})
+            R.id.tv_occurence_value, R.id.tv_ceased_time_value, R.id.tv_report_time_value, R.id.et_birthday, R.id.et_date_atten, R.id.btn_email, R.id.btn_save})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -581,14 +645,14 @@ public class IncidentReportsActivity extends BaseActivity {
         CallProgressWheel.dismissLoadingDialog();
     }
 
-    private void saveDataOnParse(){
-       final ParseUser parseUser = ParseUser.getCurrentUser();
+    private void saveDataOnParse() {
+        final ParseUser parseUser = ParseUser.getCurrentUser();
         parseUser.getParseObject("IncidentReport").fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, com.parse.ParseException e) {
                 if (e == null) {
                     parseUser.saveInBackground();
-                    object.put("weather_option",  etAffected.getText().toString());
+                    object.put("weather_option", etAffected.getText().toString());
                     /*object.put("occourance_date",  etAffected.getText().toString());
                     object.put("incedent_option",  etAffected.getText().toString());
                     object.put("incedent_location",  etAffected.getText().toString());
@@ -670,7 +734,7 @@ public class IncidentReportsActivity extends BaseActivity {
 
     }
 
-    private void getData(){
+    private void getData() {
         etAffected.getText().toString();
         rgType.getCheckedRadioButtonId();
         tvOccurenceValue.getText().toString();

@@ -1,8 +1,8 @@
 package com.grandgroup.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,8 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
 import com.grandgroup.R;
 import com.grandgroup.adapter.ReportAdapter;
 import com.grandgroup.model.IncidentModel;
@@ -21,35 +19,30 @@ import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.GrandGroupHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ReportActivity extends BaseActivity implements AdapterView.OnItemSelectedListener {
-    private AppCompatActivity mContext;
     // Spinner Drop down elements
     List categories = new ArrayList();
-    ArrayList incidentReportList ;
+    ArrayList incidentReportList;
     ArrayList riskReportList;
     String selectedCat = "Incedent Report";
-
     @BindView(R.id.tv_title)
     TextView tvTitle;
-
     @BindView(R.id.btn_add)
     Button btnAdd;
-
     @BindView(R.id.spinner_report)
     Spinner spinnerReport;
-
     @BindView(R.id.rv_reports)
     RecyclerView rvReports;
+    private AppCompatActivity mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,19 +61,19 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
         categories.add("Risk Report");
 
         // Creating adapter for spinner
-        ArrayAdapter dataAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter dataAdapter = new ArrayAdapter(mContext, R.layout.spinner_dropdown_item, categories);
         // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         // attaching data adapter to spinner
         spinnerReport.setAdapter(dataAdapter);
         if (selectedCat.equalsIgnoreCase("Incedent Report")) {
-           getReports("IncidentReport");
+            getReports("IncidentReport");
         } else if (selectedCat.equalsIgnoreCase("Risk Report")) {
             getReports("RiskReport");
         }
     }
 
-    @OnClick({R.id.btn_back,R.id.btn_add})
+    @OnClick({R.id.btn_back, R.id.btn_add})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -121,17 +114,15 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                                     incidentReportList.add(incidentModel);
                                 }
                                 setAdapter(0, reports);
+                            } else if (selectedCat.equalsIgnoreCase("Risk Report")) {
+                                for (int i = 0; i < reports.size(); i++) {
+                                    RiskReportModel riskReportModel = new RiskReportModel();
+                                    riskReportModel.setObjectId(reports.get(i).getObjectId());
+                                    riskReportList.add(riskReportModel);
+                                }
+                                setAdapter(1, reports);
                             }
-
-                        else if (selectedCat.equalsIgnoreCase("Risk Report")) {
-                            for (int i = 0; i < reports.size(); i++) {
-                                RiskReportModel riskReportModel = new RiskReportModel();
-                                riskReportModel.setObjectId(reports.get(i).getObjectId());
-                                riskReportList.add(riskReportModel);
-                            }
-                            setAdapter(1, reports);
-                        }
-                    } else {
+                        } else {
                             CallProgressWheel.dismissLoadingDialog();
                         }
                     }
@@ -145,17 +136,16 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
 
     private void setAdapter(int userSelection, final List<ParseObject> reports) {
         try {
-            if(userSelection ==0) {
+            if (userSelection == 0) {
                 if (incidentReportList.size() > 0) {
                     LinearLayoutManager llm = new LinearLayoutManager(this);
                     llm.setOrientation(LinearLayoutManager.VERTICAL);
                     rvReports.setLayoutManager(llm);
-                    ReportAdapter adapter = new ReportAdapter(mContext, userSelection,incidentReportList,  new ReportAdapter.ItemClickListener() {
+                    ReportAdapter adapter = new ReportAdapter(mContext, userSelection, incidentReportList, new ReportAdapter.ItemClickListener() {
                         @Override
                         public void onClick(int position) {
-                            ParseObject incidentReportObject =  reports.get(position);
+                            ParseObject incidentReportObject = reports.get(position);
                             IncidentModel incidentModel = new IncidentModel();
-
                             incidentModel.setWeather_option(incidentReportObject.get("weather_option").toString());
                             incidentModel.setIncedent_option(incidentReportObject.get("incident_option").toString());
                             incidentModel.setOccourance_date(incidentReportObject.get("occourance_date").toString());
@@ -218,9 +208,7 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                             incidentModel.setPerson_workplace_name(incidentReportObject.get("person_workplace_name").toString());
                             incidentModel.setEvent_type(incidentReportObject.get("event_type").toString());
                             incidentModel.setCease_date(incidentReportObject.get("cease_date").toString());
-
                            /*
-
                             String photo_option;
                             String incident_report_person_signature;
                             String first_add_signature;*/
@@ -237,23 +225,37 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                     rvReports.setVisibility(View.VISIBLE);
                     rvReports.setVisibility(View.GONE);
                 }
-            }
-            else if(userSelection ==1){
+            } else if (userSelection == 1) {
                 LinearLayoutManager llm = new LinearLayoutManager(this);
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
                 rvReports.setLayoutManager(llm);
-                ReportAdapter adapter = new ReportAdapter(mContext, riskReportList,userSelection,  new ReportAdapter.ItemClickListener() {
+                ReportAdapter adapter = new ReportAdapter(mContext, riskReportList, userSelection, new ReportAdapter.ItemClickListener() {
                     @Override
                     public void onClick(int position) {
-                        ParseObject riskReportObject =  reports.get(position);
+                        ParseObject riskReportObject = reports.get(position);
+                        RiskReportModel riskReportModel = new RiskReportModel();
+                        riskReportModel.setRisk_likelihood(riskReportObject.get("risk_likelihood").toString());
+                        riskReportModel.setRisk_action_plan(riskReportObject.get("risk_action_plan").toString());
+                        riskReportModel.setRisk_location(riskReportObject.get("risk_location").toString());
+                        riskReportModel.setRisk_description(riskReportObject.get("risk_description").toString());
+                        riskReportModel.setRisk_control_effectiveness(riskReportObject.get("risk_control_effectiveness").toString());
+                        riskReportModel.setRisk_control(riskReportObject.get("risk_control").toString());
+                        riskReportModel.setRisk_reported_by(riskReportObject.get("risk_reported_by").toString());
+                        riskReportModel.setRisk_consequence(riskReportObject.get("risk_consequence").toString());
+                        riskReportModel.setRisk_date(riskReportObject.get("risk_date").toString());
+                        ParseFile signImage = riskReportObject.getParseFile("signature_file");
+                        ParseFile riskImage = riskReportObject.getParseFile("risk_file");
+                        if (signImage != null)
+                            riskReportModel.setSignature_file(signImage.getUrl());
+                        else
+                            riskReportModel.setSignature_file("");
 
-
-
-
-
-
+                        if (riskImage != null)
+                            riskReportModel.setRisk_file(riskImage.getUrl());
+                        else
+                            riskReportModel.setRisk_file("");
                         Intent intent = new Intent(mContext, RiskReportActivity.class);
-                        intent.putExtra("riskReportObjectString", riskReportObject);
+                        intent.putExtra("riskReportObject", riskReportModel);
                         startActivity(intent);
                     }
                 });
@@ -264,12 +266,10 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                 rvReports.setVisibility(View.VISIBLE);
                 rvReports.setVisibility(View.GONE);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

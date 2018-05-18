@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +14,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,16 +24,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.grandgroup.R;
-import com.grandgroup.model.IncidentModel;
+import com.grandgroup.model.RiskReportModel;
 import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.CommonUtils;
 import com.grandgroup.utills.PermissionUtils;
 import com.grandgroup.views.CustomDateDialog;
 import com.grandgroup.views.CustomTimeDialog;
+import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
-import java.util.List;
+import java.io.ByteArrayOutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +58,9 @@ import static com.grandgroup.utills.AppConstant.SIGNATRUE_REQUEST;
 import static com.grandgroup.utills.AppConstant.WRITE_PERMISSIONS_REQUEST;
 
 public class RiskReportActivity extends AppCompatActivity {
-    private IncidentModel incidentReportObject ;
+    private RiskReportModel riskReportObject;
+    private Bitmap signBitmap = null, photoOfHazardBitmap;
+
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.tv_event_date)
@@ -88,7 +102,7 @@ public class RiskReportActivity extends AppCompatActivity {
     @BindView(R.id.tv_controls)
     TextView tvControls;
     @BindView(R.id.et_controls)
-    TextView etControls;
+    EditText etControls;
     @BindView(R.id.tv_control_eff)
     TextView tvControlEff;
     @BindView(R.id.tv_action_plan)
@@ -110,12 +124,72 @@ public class RiskReportActivity extends AppCompatActivity {
     @BindView(R.id.btn_save)
     Button btnSave;
     private AppCompatActivity mContext;
+    private ArrayList<String> likeArray, consequenceArray, controlEffectivenessArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_risk_report);
         setInitialData();
+    }
+
+    private void setInitialData() {
+        mContext = RiskReportActivity.this;
+        ButterKnife.bind(mContext);
+        tvTitle.setText("Risk Report");
+        //Like Array
+        likeArray = new ArrayList<>();
+        likeArray.add("Rare");
+        likeArray.add("Slight");
+        likeArray.add("Possible");
+        likeArray.add("Likely");
+        likeArray.add("almost Certain");
+
+        //ConsequencesArray
+        consequenceArray = new ArrayList<>();
+        consequenceArray.add("Insignificant");
+        consequenceArray.add("Minor");
+        consequenceArray.add("Moderate");
+        consequenceArray.add("Major");
+        consequenceArray.add("Severe");
+
+        //controlEffectivenessArray
+        controlEffectivenessArray = new ArrayList<>();
+        controlEffectivenessArray.add("Poor");
+        controlEffectivenessArray.add("Fair");
+        controlEffectivenessArray.add("Good");
+        controlEffectivenessArray.add("Effective");
+        if (getIntent().getSerializableExtra("riskReportObject") != null) {
+            btnSave.setVisibility(View.GONE);
+            btnEmail.setVisibility(View.GONE);
+            riskReportObject = (RiskReportModel) getIntent().getSerializableExtra("riskReportObject");
+            tvReportDesc.setText(riskReportObject.getRisk_description());
+            tv_event_date.setText(riskReportObject.getRisk_date());
+            etLocation.setText(riskReportObject.getRisk_location());
+            tvSelectedLikelihood.setText(riskReportObject.getRisk_likelihood());
+            tv_select_consq.setText(riskReportObject.getRisk_consequence());
+            etControls.setText(riskReportObject.getRisk_control());
+            et_control_eff.setText(riskReportObject.getRisk_control_effectiveness());
+            etActionPlan.setText(riskReportObject.getRisk_action_plan());
+            etReportedBy.setText(riskReportObject.getRisk_reported_by());
+            Glide.with(mContext).load(riskReportObject.getSignature_file())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.default_user)
+                            .error(R.drawable.default_user)
+                            .dontAnimate()
+                            .centerCrop()
+                            .dontTransform()).into(ivSignature);
+
+            Glide.with(mContext).load(riskReportObject.getRisk_file())
+                    .apply(new RequestOptions()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .placeholder(R.drawable.default_user)
+                            .error(R.drawable.default_user)
+                            .dontAnimate()
+                            .centerCrop()
+                            .dontTransform()).into(iv_image);
+        }
     }
 
     @OnClick({R.id.btn_back, R.id.tv_event_date, R.id.lay_photo, R.id.tv_select_likelihood, R.id.tv_select_consq,
@@ -129,11 +203,27 @@ public class RiskReportActivity extends AppCompatActivity {
             case R.id.tv_event_date:
                 CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
                     @Override
-                    public void onOkayClick(int date, int month, int year) {
+                    public void onOkayClick(final int date, final int month, final int year) {
                         CustomTimeDialog.getInstance().timePicker(mContext, new CustomTimeDialog.TimeDialogListener() {
                             @Override
                             public void onOkayClick(String twentyFourTime, String TwelveHourTime) {
+                                String dayOfMonth = "", monthOfYear = "", selectedDate, formattedDate = "";
 
+                                monthOfYear = (month + 1 < 10) ? "0" + (month + 1) : "" + (month + 1);
+                                dayOfMonth = (date < 10) ? "0" + date : "" + date;
+                                selectedDate = monthOfYear + " " + dayOfMonth + ", " + year + " " + TwelveHourTime;
+                                Log.e("day", selectedDate);
+                                DateFormat originalFormat = new SimpleDateFormat("MM dd, yyyy hh:mm a");
+                                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm a");
+                                try {
+                                    Date date1 = originalFormat.parse(selectedDate);
+                                    formattedDate = targetFormat.format(date1);
+                                    Log.e("day1", formattedDate);
+
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                tv_event_date.setText(formattedDate);
                             }
                         });
                     }
@@ -143,7 +233,7 @@ public class RiskReportActivity extends AppCompatActivity {
                 selectImage();
                 break;
             case R.id.tv_select_likelihood:
-                CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
+                CommonUtils.getInstance().selectDialog(mContext, likeArray, "Likelihood", new CommonUtils.OnClickItem() {
                     @Override
                     public void OnClickItem(String Item) {
                         tvSelectedLikelihood.setText(Item);
@@ -151,7 +241,7 @@ public class RiskReportActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.tv_select_consq:
-                CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
+                CommonUtils.getInstance().selectDialog(mContext, consequenceArray, "Select Consequence", new CommonUtils.OnClickItem() {
                     @Override
                     public void OnClickItem(String Item) {
                         tv_select_consq.setText(Item);
@@ -159,7 +249,7 @@ public class RiskReportActivity extends AppCompatActivity {
                 });
                 break;
             case R.id.et_control_eff:
-                CommonUtils.getInstance().selectDialog(mContext, new CommonUtils.OnClickItem() {
+                CommonUtils.getInstance().selectDialog(mContext, controlEffectivenessArray, "Controls Effectiveness", new CommonUtils.OnClickItem() {
                     @Override
                     public void OnClickItem(String Item) {
                         et_control_eff.setText(Item);
@@ -172,33 +262,59 @@ public class RiskReportActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.btn_save:
-                if (PermissionUtils.requestPermission(mContext, SAVE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+               /* if (PermissionUtils.requestPermission(mContext, SAVE_PERMISSIONS_REQUEST, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     Uri uri = CommonUtils.getInstance().createPdf(lay_screenshot, "Risk_Report_Form");
                     Toast.makeText(mContext, "Form Saved Successfully", Toast.LENGTH_SHORT).show();
-                }
+                }*/
+                uploaddata();
                 break;
-
             case R.id.iv_signature:
-            startActivityForResult(new Intent(mContext,SignatureActivity.class),SIGNATRUE_REQUEST);
+                startActivityForResult(new Intent(mContext, SignatureActivity.class), SIGNATRUE_REQUEST);
                 mContext.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-            break;
+                break;
+        }
+    }
 
+    private void uploaddata() {
+        CallProgressWheel.showLoadingDialog(mContext);
+        ParseObject riskReportObject = new ParseObject("RiskReport");
+        riskReportObject.put("risk_likelihood", tvSelectedLikelihood.getText().toString());
+        riskReportObject.put("risk_action_plan", etActionPlan.getText().toString());
+        riskReportObject.put("risk_location", etLocation.getText().toString());
+        riskReportObject.put("risk_description", tvReportDesc.getText().toString());
+        riskReportObject.put("risk_control_effectiveness", et_control_eff.getText().toString());
+        riskReportObject.put("risk_control", etControls.getText().toString());
+        riskReportObject.put("risk_reported_by", etReportedBy.getText().toString());
+        riskReportObject.put("risk_consequence", tv_select_consq.getText().toString());
+        riskReportObject.put("risk_date", tv_event_date.getText().toString());
+        if (signBitmap != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            signBitmap.compress(Bitmap.CompressFormat.PNG, 70, stream);
+            byte[] image = stream.toByteArray();
+            ParseFile file = new ParseFile("ile.png", image);
+            riskReportObject.put("risk_file", file);
         }
 
-    }
+        if (photoOfHazardBitmap != null) {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            photoOfHazardBitmap.compress(Bitmap.CompressFormat.PNG, 70, stream);
+            byte[] image = stream.toByteArray();
+            ParseFile file = new ParseFile("ile.png", image);
+            riskReportObject.put("signature_file", file);
+        }
+        riskReportObject.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                CallProgressWheel.dismissLoadingDialog();
+                if (e == null) {
+                    Toast.makeText(getApplicationContext(), "Report form saved successfully!", Toast.LENGTH_LONG).show();
 
-    private void setInitialData() {
-        mContext = RiskReportActivity.this;
-        ButterKnife.bind(mContext);
-        tvTitle.setText("Incident Report");
-        incidentReportObject = (IncidentModel) getIntent().getSerializableExtra("incidentModel");
-        tvReportDesc.setText(incidentReportObject.getWeather_option());
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "Please, Try Again", Toast.LENGTH_LONG).show();
 
-    }
-
-    private void getData() {
-        tvReportDesc.getText().toString();
-        tv_event_date.getText().toString();
+            }
+        });
     }
 
     private void selectImage() {
@@ -217,7 +333,6 @@ public class RiskReportActivity extends AppCompatActivity {
                             if (PermissionUtils.requestPermission(mContext, GALLERY_PERMISSIONS_REQUEST, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                 GalleryIntent();
                             }
-
                         } else if (options[item].equals("Cancel")) {
                             dialog.dismiss();
                         }
@@ -232,32 +347,28 @@ public class RiskReportActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             if (requestCode == CAMERA_REQUEST) {
                 if (data != null) {
-                    Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                    signBitmap = (Bitmap) data.getExtras().get("data");
 
-                    Uri tempUri = CommonUtils.getInstance().getImageUri(mContext, thumbnail);
+                    Uri tempUri = CommonUtils.getInstance().getImageUri(mContext, signBitmap);
                     Glide.with(mContext).load(tempUri).into(iv_image);
                 }
-
             } else if (requestCode == GALLERY_REQUEST) {
                 if (data != null) {
-                    Bitmap bitmap = null;
                     try {
                         Uri tempUri = data.getData();
                         Glide.with(mContext).load(tempUri).into(iv_image);
-                       /* bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), tempUri);
-                        iv_image.setImageBitmap(bitmap);*/
+                        signBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), tempUri);
+                        //  iv_image.setImageBitmap(bitmap);*/
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-            }
-
-            else if(requestCode == SIGNATRUE_REQUEST){
-                Bitmap bitmap =  data.getParcelableExtra("signBitmap");
-                ivSignature.setImageBitmap(bitmap);
+            } else if (requestCode == SIGNATRUE_REQUEST) {
+                byte[] byteArray = data.getByteArrayExtra("byteArray");
+                photoOfHazardBitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                ivSignature.setImageBitmap(photoOfHazardBitmap);
             }
         }
-
     }
 
     @Override

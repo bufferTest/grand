@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.grandgroup.R;
 import com.grandgroup.adapter.SelectItemAdapter;
@@ -78,11 +79,13 @@ public class CommonUtils {
     }
 
 
-    public void selectDialog(final AppCompatActivity mContext, final OnClickItem onClickItem) {
+    public void selectDialog(final AppCompatActivity mContext,ArrayList<String> arrayList,String headingText, final OnClickItem onClickItem ) {
 
         final Dialog dialog = new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.layout_select_dialog);
+        TextView tv_heading = dialog.findViewById(R.id.tv_heading);
+        tv_heading.setText(headingText);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -92,13 +95,7 @@ public class CommonUtils {
         ImageView iv_close = dialog.findViewById(R.id.iv_close);
         RecyclerView rv_items = dialog.findViewById(R.id.rv_items);
 
-        ArrayList<String> daysList = new ArrayList<>();
-        daysList.add("Birthday");
-        daysList.add("Marriage");
-        daysList.add("Blood donation");
-        daysList.add("Social Service");
-
-        SelectItemAdapter adapter = new SelectItemAdapter(daysList, new SelectItemAdapter.OnClick() {
+        SelectItemAdapter adapter = new SelectItemAdapter(arrayList, new SelectItemAdapter.OnClick() {
             @Override
             public void OnClick(String item) {
                 itemSelected = item;

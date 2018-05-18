@@ -16,7 +16,7 @@
         android:eventsInterceptionEnabled="true"
         android:fadeEnabled="false"
         android:fadeOffset="5000"
-        android:gestureColor="@color/colorButton"
+        android:gestureColor="@color/colorBlack"
         android:gestureStrokeLengthThreshold="0.1"
         android:gestureStrokeType="multiple"
         android:orientation="vertical" />
