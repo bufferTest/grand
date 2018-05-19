@@ -16,4 +16,11 @@ public class AppConstant {
     public static final int GALLERY_REQUEST = 121;
     public static final int SIGNATRUE_REQUEST = 101;
 
+    /*
+     * Database Constants
+     */
+
+    public static final String EVENTSTABLE = "Events_Table";
+    public static final String DATABASE_NAME = "Grand_Group";
+    public static final int DATABASE_VERSION = 1;
 }
