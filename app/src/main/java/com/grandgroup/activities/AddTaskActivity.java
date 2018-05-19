@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.grandgroup.R;
 import com.grandgroup.database.SQLiteQueries;
@@ -56,7 +57,7 @@ public class AddTaskActivity extends BaseActivity {
         tvTitle.setText("Add Task");
     }
 
-    @OnClick({R.id.btn_back, R.id.tv_event_date,R.id.btn_save})
+    @OnClick({R.id.btn_back, R.id.tv_event_date, R.id.btn_save})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -76,8 +77,16 @@ public class AddTaskActivity extends BaseActivity {
                 String event_date = tvEventDate.getText().toString();
                 String event_title = etEventName.getText().toString();
                 String event_desc = etEventDesc.getText().toString();
-                SQLiteQueries.getInstance(mContext).saveEvent(event_date,event_title,event_desc);
-                finish();
+                if (event_date.trim().length() == 0)
+                    Toast.makeText(mContext, "Please select Date", Toast.LENGTH_SHORT).show();
+                else if (event_title.trim().length() == 0)
+                    Toast.makeText(mContext, "Please enter Title", Toast.LENGTH_SHORT).show();
+                else if (event_desc.trim().length() == 0)
+                    Toast.makeText(mContext, "Please enter description", Toast.LENGTH_SHORT).show();
+                else{
+                    SQLiteQueries.getInstance(mContext).saveEvent(event_date, event_title, event_desc);
+                    finish();
+                }
                 break;
         }
     }

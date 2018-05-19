@@ -25,14 +25,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.CustomHold
 
     @NonNull
     @Override
-    public EventsAdapter.CustomHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CustomHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View listItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.events_item, parent, false);
         return new CustomHolder(listItem);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventsAdapter.CustomHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomHolder holder, int position) {
         holder.tvText.setText(eventsList.get(position).getEvent_title());
+        holder.tvDate.setText(eventsList.get(position).getEvent_date());
     }
 
     @Override
@@ -43,6 +44,8 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.CustomHold
     public class CustomHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_text)
         TextView tvText;
+        @BindView(R.id.tv_date)
+        TextView tvDate;
 
         public CustomHolder(View itemView) {
             super(itemView);
