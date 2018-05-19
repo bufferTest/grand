@@ -2,18 +2,16 @@ package com.grandgroup.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.grandgroup.R;
+import com.grandgroup.database.SQLiteQueries;
+import com.grandgroup.utills.GrandGroupHelper;
 import com.grandgroup.views.CustomDateDialog;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +22,24 @@ public class AddTaskActivity extends BaseActivity {
     TextView tvTitle;
     @BindView(R.id.tv_event_date)
     TextView tvEventDate;
+    @BindView(R.id.btn_back)
+    Button btnBack;
+    @BindView(R.id.btn_add)
+    Button btnAdd;
+    @BindView(R.id.my_toolbar)
+    RelativeLayout myToolbar;
+    @BindView(R.id.tv_event_date_title)
+    TextView tvEventDateTitle;
+    @BindView(R.id.tv_event_name_title)
+    TextView tvEventNameTitle;
+    @BindView(R.id.et_event_name)
+    EditText etEventName;
+    @BindView(R.id.tv_event_desc_title)
+    TextView tvEventDescTitle;
+    @BindView(R.id.et_event_desc)
+    EditText etEventDesc;
+    @BindView(R.id.btn_save)
+    Button btnSave;
     private AppCompatActivity mContext;
 
 
@@ -40,7 +56,7 @@ public class AddTaskActivity extends BaseActivity {
         tvTitle.setText("Add Task");
     }
 
-    @OnClick({R.id.btn_back, R.id.tv_event_date})
+    @OnClick({R.id.btn_back, R.id.tv_event_date,R.id.btn_save})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -51,25 +67,18 @@ public class AddTaskActivity extends BaseActivity {
                 CustomDateDialog.getInstance().DatePicker(mContext, new CustomDateDialog.DateDialogListener() {
                     @Override
                     public void onOkayClick(int date, int month, int year) {
-                        String dayOfMonth = "", monthOfYear = "", selectedDate, formattedDate = "";
-
-                        monthOfYear = (month < 10) ? "0"+ month+1 : ""+month+1;
-                        dayOfMonth = (date < 10) ? "0"+ date : ""+date;
-                        selectedDate = monthOfYear +" "+ dayOfMonth+", "+ year;
-                        Log.e("day", selectedDate);
-                        DateFormat originalFormat = new SimpleDateFormat("MM dd, yyyy", Locale.ENGLISH);
-                        DateFormat targetFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                        try {
-                            Date date1 = originalFormat.parse(selectedDate);
-                             formattedDate = targetFormat.format(date1);
-                            Log.e("day1", formattedDate);
-
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
+                        String formattedDate = String.valueOf(new StringBuilder().append(GrandGroupHelper.getMonth(month)).append(" ").append(date).append(", ").append(year));
                         tvEventDate.setText(formattedDate);
                     }
                 });
+                break;
+            case R.id.btn_save:
+                String event_date = tvEventDate.getText().toString();
+                String event_title = etEventName.getText().toString();
+                String event_desc = etEventDesc.getText().toString();
+                SQLiteQueries.getInstance(mContext).saveEvent(event_date,event_title,event_desc);
+                finish();
+                break;
         }
     }
 }

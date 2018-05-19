@@ -1,14 +1,14 @@
 package com.grandgroup.model;
 
 public class calenderModel {
-    String value;
-    boolean isSelected = false;
+    private Integer value;
+    private boolean isSelected = false;
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Integer value) {
         this.value = value;
     }
 

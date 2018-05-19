@@ -14,9 +14,8 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-       /* database.execSQL("CREATE TABLE " + AppConstant.EVENTSTABLE + " ( " + AppConstant.PREVIOUSCATID + " VARCHAR ,"
-                + AppConstant.CATID + " VARCHAR ," + AppConstant.PREVIOUSDOCNAME + " VARCHAR ," + AppConstant.DOCNAME
-                + " VARCHAR , " + AppConstant.ISDATACHANGED + " VARCHAR);");*/
+        database.execSQL("CREATE TABLE " + AppConstant.EVENTSTABLE + " ( " + AppConstant.EVENTDATE + " VARCHAR ,"
+                + AppConstant.EVENTTITLE + " VARCHAR ," + AppConstant.EVENTSDESC + " VARCHAR);");
     }
 
     @Override

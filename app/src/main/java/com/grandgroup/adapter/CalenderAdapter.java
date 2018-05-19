@@ -49,7 +49,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Custom
     @Override
     public void onBindViewHolder(@NonNull CustomHolder holder, int position) {
         if (arrayList.get(position) != null) {
-            holder.material_calendar_day.setText(arrayList.get(position).getValue());
+            holder.material_calendar_day.setText(arrayList.get(position).getValue().toString());
 //            holder.saved_event_imageView.setVisibility(View.VISIBLE);
             if (arrayList.get(position).getSelected()) {
                 selectedPosition = position;
@@ -61,7 +61,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Custom
             if (firsttym)
                 if (currentcalendar.get(Calendar.YEAR) == calendar.get(Calendar.YEAR))
                     if (currentcalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH))
-                        if (arrayList.get(position).getValue().equalsIgnoreCase(String.valueOf(currentcalendar.get(Calendar.DAY_OF_MONTH)))) {
+                        if (arrayList.get(position).getValue() == currentcalendar.get(Calendar.DAY_OF_MONTH)) {
                             selectedPosition = position;
                             holder.lay_day.setBackground(ContextCompat.getDrawable(mContext, R.drawable.selector));
                             firsttym = false;
@@ -76,7 +76,7 @@ public class CalenderAdapter extends RecyclerView.Adapter<CalenderAdapter.Custom
     }
 
     public interface onDayClick {
-        void onDayClick(String position);
+        void onDayClick(Integer position);
     }
 
     class CustomHolder extends RecyclerView.ViewHolder {

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.grandgroup.R;
+import com.grandgroup.model.EventsModel;
 
 import java.util.ArrayList;
 
@@ -16,10 +17,10 @@ import butterknife.ButterKnife;
 
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.CustomHolder> {
 
-    private ArrayList<String> dayList;
+    private ArrayList<EventsModel> eventsList;
 
-    public EventsAdapter(ArrayList<String> daysList) {
-        this.dayList = daysList;
+    public EventsAdapter(ArrayList<EventsModel> eventsList) {
+        this.eventsList = eventsList;
     }
 
     @NonNull
@@ -31,12 +32,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.CustomHold
 
     @Override
     public void onBindViewHolder(@NonNull EventsAdapter.CustomHolder holder, int position) {
-        holder.tvText.setText(dayList.get(position));
+        holder.tvText.setText(eventsList.get(position).getEvent_title());
     }
 
     @Override
     public int getItemCount() {
-        return dayList.size();
+        return eventsList.size();
     }
 
     public class CustomHolder extends RecyclerView.ViewHolder {

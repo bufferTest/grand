@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.text.DateFormatSymbols;
 
 public class GrandGroupHelper {
 
@@ -255,5 +256,8 @@ public class GrandGroupHelper {
         }
     }
 
+    public static String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
+    }
 
 }

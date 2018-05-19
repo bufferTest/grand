@@ -180,32 +180,14 @@ public class ShiftStructure extends BaseActivity {
         for (int i = 1; i <= daysInMonth; i++) {
             calenderModel calendarModel = new calenderModel();
             calendarModel.setSelected(false);
-            calendarModel.setValue(String.valueOf(i));
+            calendarModel.setValue(i);
             arrayList.add(calendarModel);
         }
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 7);
         calenderRecyclerView.setLayoutManager(gridLayoutManager);
         CalenderAdapter calenderAdpter = new CalenderAdapter(mContext, arrayList, cal, new CalenderAdapter.onDayClick() {
             @Override
-            public void onDayClick(String position) {
-                Log.e("day", position + cal.get(Calendar.MONTH) + cal.get(Calendar.YEAR));
-                String dayOfMonth = "", monthOfYear = "", selectedDate, formattedDate = "";
-
-               /* monthOfYear = (month+1 < 10) ? "0"+ month+1 : ""+month+1;
-                dayOfMonth = (date < 10) ? "0"+ date : ""+date;
-                selectedDate = monthOfYear +" "+ dayOfMonth+", "+ year;
-                Log.e("day", selectedDate);
-                DateFormat originalFormat = new SimpleDateFormat("MM dd, yyyy", Locale.ENGLISH);
-                DateFormat targetFormat = new SimpleDateFormat("MMMM dd, yyyy");
-                try {
-                    Date date1 = originalFormat.parse(selectedDate);
-                    formattedDate = targetFormat.format(date1);
-                    Log.e("day1", formattedDate);
-
-                } catch (java.text.ParseException e) {
-                    e.printStackTrace();
-                }
-                tvEventDate.setText(formattedDate);*/
+            public void onDayClick(Integer position) {
 
             }
         });

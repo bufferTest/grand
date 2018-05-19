@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.grandgroup.R;
 
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 public class CustomDateDialog {
@@ -65,8 +66,11 @@ public class CustomDateDialog {
     }
 
     public interface DateDialogListener {
-
         void onOkayClick(int date, int month, int year);
+    }
+
+    public String getMonth(int month) {
+        return new DateFormatSymbols().getMonths()[month];
     }
 }
 

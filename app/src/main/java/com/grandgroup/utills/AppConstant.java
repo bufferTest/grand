@@ -19,8 +19,16 @@ public class AppConstant {
     /*
      * Database Constants
      */
-
-    public static final String EVENTSTABLE = "Events_Table";
     public static final String DATABASE_NAME = "Grand_Group";
     public static final int DATABASE_VERSION = 1;
+
+    /**
+     * Events Table
+     */
+    public static final String EVENTSTABLE = "Events_Table";
+    public static final String EVENTDATE = "events_Date";
+    public static final String EVENTTITLE = "events_Title";
+    public static final String EVENTSDESC = "Events_Desc";
+
 }
+

@@ -15,7 +15,10 @@ import com.grandgroup.R;
 import com.grandgroup.adapter.CalenderAdapter;
 import com.grandgroup.adapter.EventsAdapter;
 import com.grandgroup.adapter.header_Adapter;
+import com.grandgroup.database.SQLiteQueries;
+import com.grandgroup.model.EventsModel;
 import com.grandgroup.model.calenderModel;
+import com.grandgroup.utills.GrandGroupHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ public class TaskManagerActivity extends BaseActivity {
     private int mFirstDay;
     private int year;
     private int month;
+    private int date;
     private Calendar cal = Calendar.getInstance();
 
     @Override
@@ -57,9 +61,16 @@ public class TaskManagerActivity extends BaseActivity {
         cal.setTimeInMillis(System.currentTimeMillis());
         year = cal.get(Calendar.YEAR);
         month = cal.get(Calendar.MONTH);
+        date = cal.get(Calendar.DAY_OF_MONTH);
         setUpWeekNames();
         setupcalender();
-        setEventsAdapter();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setEventsAdapter(month, date, year);
     }
 
     private void setInitialData() {
@@ -69,7 +80,7 @@ public class TaskManagerActivity extends BaseActivity {
         btnAdd.setVisibility(View.VISIBLE);
     }
 
-    @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward,R.id.btn_add})
+    @OnClick({R.id.btn_back, R.id.iv_previous, R.id.iv_forward, R.id.btn_add})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_back:
@@ -177,15 +188,18 @@ public class TaskManagerActivity extends BaseActivity {
         for (int i = 1; i <= daysInMonth; i++) {
             calenderModel calendarModel = new calenderModel();
             calendarModel.setSelected(false);
-            calendarModel.setValue(String.valueOf(i));
+            calendarModel.setValue(i);
             arrayList.add(calendarModel);
         }
         GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 7);
         calenderRecyclerView.setLayoutManager(gridLayoutManager);
         CalenderAdapter calenderAdpter = new CalenderAdapter(mContext, arrayList, cal, new CalenderAdapter.onDayClick() {
             @Override
-            public void onDayClick(String position) {
-                Log.e("day", position + cal.get(Calendar.MONTH) + cal.get(Calendar.YEAR));
+            public void onDayClick(Integer position) {
+                year = cal.get(Calendar.YEAR);
+                month = cal.get(Calendar.MONTH);
+                date = position;
+                setEventsAdapter(month, date, year);
             }
         });
         calenderRecyclerView.setAdapter(calenderAdpter);
@@ -193,15 +207,14 @@ public class TaskManagerActivity extends BaseActivity {
     }
 
 
-    private void setEventsAdapter() {
-
-        ArrayList<String> daysList = new ArrayList<>();
-        daysList.add("Birthday");
-        daysList.add("Marriage");
-        daysList.add("Blood donation");
-        daysList.add("Social Service");
-        if (daysList.size() > 0) {
-            EventsAdapter adapter = new EventsAdapter(daysList);
+    private void setEventsAdapter(int month, int date, int year) {
+        String formattedDate = String.valueOf(new StringBuilder().append(GrandGroupHelper.getMonth(month)).append(" ").append(date).append(", ").append(year));
+        Log.e("formatteddate",formattedDate);
+        ArrayList<EventsModel> eventsList = new ArrayList<>(SQLiteQueries.getInstance(mContext).getEvents(formattedDate));
+        if (eventsList.size() > 0) {
+            tv_no_events.setVisibility(View.GONE);
+            rv_events.setVisibility(View.VISIBLE);
+            EventsAdapter adapter = new EventsAdapter(eventsList);
             rv_events.setHasFixedSize(true);
             rv_events.setAdapter(adapter);
             LinearLayoutManager llm = new LinearLayoutManager(this);

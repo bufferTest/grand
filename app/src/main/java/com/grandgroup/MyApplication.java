@@ -3,6 +3,7 @@ package com.grandgroup;
 import android.app.Application;
 
 import com.buddy.sdk.Buddy;
+import com.facebook.stetho.Stetho;
 import com.parse.Parse;
 
 /**
@@ -19,5 +20,6 @@ public class MyApplication extends Application {
                 .applicationId("55bc98e3-d134-47dd-8ee8-0e1ba73a7a69")
                 .clientKey("").server("https://parse.buddy.com/parse").build());
 
+        Stetho.initializeWithDefaults(this);
     }
 }
