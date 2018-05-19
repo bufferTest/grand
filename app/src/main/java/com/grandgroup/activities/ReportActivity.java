@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import com.grandgroup.R;
 import com.grandgroup.adapter.ReportAdapter;
 import com.grandgroup.model.IncidentModel;
@@ -20,12 +19,11 @@ import com.grandgroup.utills.CallProgressWheel;
 import com.grandgroup.utills.GrandGroupHelper;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -148,7 +146,6 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                         public void onClick(int position) {
                             ParseObject incidentReportObject = reports.get(position);
                             IncidentModel incidentModel = new IncidentModel();
-
                             incidentModel.setWeather_option(incidentReportObject.get("weather_option").toString());
                             incidentModel.setIncedent_option(incidentReportObject.get("incident_option").toString());
                             incidentModel.setOccourance_date(incidentReportObject.get("occourance_date").toString());
@@ -211,7 +208,6 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                             incidentModel.setPerson_workplace_name(incidentReportObject.get("person_workplace_name").toString());
                             incidentModel.setEvent_type(incidentReportObject.get("event_type").toString());
                             incidentModel.setCease_date(incidentReportObject.get("cease_date").toString());
-
                            /*
                             String photo_option;
                             String incident_report_person_signature;
@@ -237,9 +233,29 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                     @Override
                     public void onClick(int position) {
                         ParseObject riskReportObject = reports.get(position);
+                        RiskReportModel riskReportModel = new RiskReportModel();
+                        riskReportModel.setRisk_likelihood(riskReportObject.get("risk_likelihood").toString());
+                        riskReportModel.setRisk_action_plan(riskReportObject.get("risk_action_plan").toString());
+                        riskReportModel.setRisk_location(riskReportObject.get("risk_location").toString());
+                        riskReportModel.setRisk_description(riskReportObject.get("risk_description").toString());
+                        riskReportModel.setRisk_control_effectiveness(riskReportObject.get("risk_control_effectiveness").toString());
+                        riskReportModel.setRisk_control(riskReportObject.get("risk_control").toString());
+                        riskReportModel.setRisk_reported_by(riskReportObject.get("risk_reported_by").toString());
+                        riskReportModel.setRisk_consequence(riskReportObject.get("risk_consequence").toString());
+                        riskReportModel.setRisk_date(riskReportObject.get("risk_date").toString());
+                        ParseFile signImage = riskReportObject.getParseFile("signature_file");
+                        ParseFile riskImage = riskReportObject.getParseFile("risk_file");
+                        if (signImage != null)
+                            riskReportModel.setSignature_file(signImage.getUrl());
+                        else
+                            riskReportModel.setSignature_file("");
 
+                        if (riskImage != null)
+                            riskReportModel.setRisk_file(riskImage.getUrl());
+                        else
+                            riskReportModel.setRisk_file("");
                         Intent intent = new Intent(mContext, RiskReportActivity.class);
-                        intent.putExtra("riskReportObjectString", riskReportObject);
+                        intent.putExtra("riskReportObject", riskReportModel);
                         startActivity(intent);
                     }
                 });
@@ -250,12 +266,10 @@ public class ReportActivity extends BaseActivity implements AdapterView.OnItemSe
                 rvReports.setVisibility(View.VISIBLE);
                 rvReports.setVisibility(View.GONE);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

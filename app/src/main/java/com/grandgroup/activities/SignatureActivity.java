@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -38,24 +39,29 @@ public class SignatureActivity extends AppCompatActivity {
         tvTitle.setText("Signature");
     }
 
-    @OnClick({R.id.btn_done})
+    @OnClick({R.id.btn_done,R.id.tv_cancle, R.id.btn_clear})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.btn_done:
                 signature_pad.setDrawingCacheEnabled(true);
-                    if (signature_pad.getGesture() != null) {
                        Bitmap signBitmap = Bitmap.createBitmap(signature_pad.getDrawingCache());
                         ByteArrayOutputStream out = new ByteArrayOutputStream();
                         signBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-                      //  byte[] image = out.toByteArray();
-                       // ParseFile file = new ParseFile("file.png", image);
-//                        Uri signature = CommonUtils.getInstance().getImageUri(mContext,signBitmap);
+                byte[] byteArray = out.toByteArray();
                         Intent returnIntent = new Intent();
-                        returnIntent.putExtra("signBitmap", signBitmap);
+                        returnIntent.putExtra("byteArray", byteArray);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
-                    }
+                        mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
                         break;
+            case R.id.tv_cancle:
+                finish();
+                mContext.overridePendingTransition(R.anim.slide_right_out, R.anim.slide_right_in);
+            break;
+            case R.id.btn_clear:
+                signature_pad.cancelClearAnimation();
+                signature_pad.clear(true);
+                break;
         }
     }
 }
