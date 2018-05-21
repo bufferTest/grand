@@ -30,8 +30,6 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -407,13 +405,150 @@ public class IncidentReportsActivity extends BaseActivity {
         incidentReportObject = (IncidentModel) getIntent().getSerializableExtra("incidentModel");
         etAffected.setText(incidentReportObject.getEffected_person_detail());
         tvOccurenceValue.setText(incidentReportObject.getOccourance_date());
-        setRadioButton(rgCeased,incidentReportObject.getCease_option());
+//        setRadioButton(rgCeased, incidentReportObject.getCease_option());
+
+        switch (incidentReportObject.getCease_option()) {
+            case "1":
+                rbCeasedYes.setChecked(true);
+                break;
+            case "2":
+                rbCeasedNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getOccourance_date()){
+            case "1":
+                rbOccYes.setChecked(true);
+                break;
+            case "2":
+                rbOccNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getPerson_gender_option()){
+            case "1":
+                rbMale.setChecked(true);
+                break;
+            case "2":
+                rbFemale.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getEvent_type()){
+            case "1":
+                rbMiss.setChecked(true);
+                break;
+            case "2":
+                rbIncident.setChecked(true);
+                break;
+            case "3":
+                rbHazard.setChecked(true);
+                break;
+            case "4":
+                rbContact.setChecked(true);
+                break;
+            case "5":
+                rbIssue.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getThird_party_option()){
+            case "1":
+                rbThirdYes.setChecked(true);
+                break;
+            case "2":
+                rbThirdNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getProperty_damage_option()){
+            case "1":
+                rbDamageYes.setChecked(true);
+                break;
+            case "2":
+                rbDamageNo.setChecked(true);
+                break;
+        }
+        switch (incidentReportObject.getFirst_aid_option()){
+            case "1":
+                rbAidYes.setChecked(true);
+                break;
+            case "2":
+                rbAidNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getCctv_option()){
+            case "1":
+                rbCctvYes.setChecked(true);
+                break;
+            case "2":
+                rbCctvNo.setChecked(true);
+                break;
+        }
+        switch (incidentReportObject.getWet_weather_option()){
+            case "1":
+                rbWetYes.setChecked(true);
+                break;
+            case "2":
+                rbWetNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getWeather_option()){
+            case "1":
+                rbWeatherYes.setChecked(true);
+                break;
+            case "2":
+                rbWeatherNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getPerson_drug_option()){
+            case "1":
+                rbDrugYes.setChecked(true);
+                break;
+            case "2":
+                rbDrugNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getPhoto_option()){
+            case "1":
+                rbPhotosYes.setChecked(true);
+                break;
+            case "2":
+                rbPhotosNo.setChecked(true);
+                break;
+        }
+
+        switch (incidentReportObject.getEvent_type()){
+            case "1":
+                rbMiss.setChecked(true);
+                break;
+            case "2":
+                rbIncident.setChecked(true);
+                break;
+            case "3":
+                rbHazard.setChecked(true);
+                break;
+            case "4":
+                rbContact.setChecked(true);
+                break;
+            case "5":
+                rbIssue.setChecked(true);
+                break;
+        }
+
+//        setRadioButton(rgEventClass, incidentReportObject.getEvent_type());
+
+
         tvCeasedTimeValue.setText(incidentReportObject.getCease_date());
         tvReportTimeValue.setText(incidentReportObject.getReported_date());
-        setRadioButton(rgOccurence,incidentReportObject.getOccourance_date());
+//        setRadioButton(rgOccurence, incidentReportObject.getOccourance_date());
         etFirstname.setText(incidentReportObject.getPerson_first_name());
         etSurname.setText(incidentReportObject.getPerson_sur_name());
-        setRadioButton(rgGender,incidentReportObject.getPerson_gender_option());
+//        setRadioButton(rgGender, incidentReportObject.getPerson_gender_option());
         etAddress.setText(incidentReportObject.getPerson_address());
         etState.setText(incidentReportObject.getPerson_state());
         etPostcode.setText(incidentReportObject.getPerson_post_code());
@@ -424,7 +559,7 @@ public class IncidentReportsActivity extends BaseActivity {
         etWorkplace.setText(incidentReportObject.getPerson_workplace_name());
 //        etAddres.setText(incidentReportObject.getOc);
         etIncident.setText(incidentReportObject.getIncedent_location());
-        setRadioButton(rgEventClass,incidentReportObject.getEvent_type());
+//        setRadioButton(rgEventClass, incidentReportObject.getEvent_type());
 //        etBrief.setText(incidentReportObject.);
         etDescription.setText(incidentReportObject.getIncident_desc());
         etAction.setText(incidentReportObject.getAction_taken());
@@ -435,33 +570,33 @@ public class IncidentReportsActivity extends BaseActivity {
         etMechanism.setText(incidentReportObject.getOther_mechanism());
         etOthers.setText(incidentReportObject.getOther_mechanism());
 //        etObserve.setText(incidentReportObject.getob);
-        setRadioButton(rgThirdParty,incidentReportObject.getThird_party_option());
+//        setRadioButton(rgThirdParty, incidentReportObject.getThird_party_option());
         etThirdReport.setText(incidentReportObject.getThird_party_detail());
-        setRadioButton(rgPropDamage,incidentReportObject.getProperty_damage_option());
+//        setRadioButton(rgPropDamage, incidentReportObject.getProperty_damage_option());
 //        etDamageAdv.setText(incidentReportObject.damage);
         etDamageVeh.setText(incidentReportObject.getVehicle_damage_detail());
-        setRadioButton(rgAttendAffe,incidentReportObject.getAttended_person_option());
+//        setRadioButton(rgAttendAffe, incidentReportObject.getAttended_person_option());
         etName.setText(incidentReportObject.getAttendee_name());
-        setRadioButton(rgFirstAid,incidentReportObject.getFirst_aid_option());
+//        setRadioButton(rgFirstAid, incidentReportObject.getFirst_aid_option());
         etAidName.setText(incidentReportObject.getFirst_aid_name());
 //        ivImage.setImageBitmap(i);
         etInjuryDetail.setText(incidentReportObject.getInjury_illness_detail());
         etMedCenter.setText(incidentReportObject.getMedical_center());
         etDateAtten.setText(incidentReportObject.getDate_attended());
-        setRadioButton(rgAmbulance,incidentReportObject.getAmbulance_attend_option());
+//        setRadioButton(rgAmbulance, incidentReportObject.getAmbulance_attend_option());
         etAmbReq.setText(incidentReportObject.getAmbulance_who());
 //        etAmbPerName.setText(incidentReportObject.ambu);
 //        etAmbDate.setText(incidentReportObject.getAm);
-        setRadioButton(rgWeather,incidentReportObject.getWeather_option());
+//        setRadioButton(rgWeather, incidentReportObject.getWeather_option());
         etWeatherCond.setText(incidentReportObject.getWeather_conditions());
-        setRadioButton(rgDrugAffect,incidentReportObject.getPerson_drug_option());
+        setRadioButton(rgDrugAffect, incidentReportObject.getPerson_drug_option());
         etFootwear.setText(incidentReportObject.getFootwaer_type());
         etEyewear.setText(incidentReportObject.getEyewear_type());
         etCarrying.setText(incidentReportObject.getCarring_type());
-        setRadioButton(rgCctv,incidentReportObject.getCctv_option());
-        setRadioButton(rgPhotos,incidentReportObject.getPhoto_option());
+//        setRadioButton(rgCctv, incidentReportObject.getCctv_option());
+//        setRadioButton(rgPhotos, incidentReportObject.getPhoto_option());
 //        setRadioButton(rgWandReport,incidentReportObject.getW);
-        setRadioButton(rgWetWeather,incidentReportObject.getWet_weather_option());
+//        setRadioButton(rgWetWeather, incidentReportObject.getWet_weather_option());
         etComment.setText(incidentReportObject.getAdditional_comments());
 //        setRadioButton(rgIncidentSpecs,incidentReportObject.inci);
 //        etNotes.setText(incidentReportObject.ge);
@@ -474,7 +609,7 @@ public class IncidentReportsActivity extends BaseActivity {
         for (int i = 0; i < count; i++) {
             RadioButton radioButton = (RadioButton) radiogroup.getChildAt(i);
             String btn_text = radioButton.getText().toString();
-            if (btn_text.equalsIgnoreCase(value)){
+            if (btn_text.equalsIgnoreCase(value)) {
                 radioButton.setChecked(true);
                 break;
             }
